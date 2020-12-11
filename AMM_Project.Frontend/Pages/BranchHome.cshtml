@@ -8,17 +8,16 @@
 <div class="row justify-content-center">
     <div class="card rounded-0 shadow w-100">
         <div class="card-body col text-center">
-            <h1 class="display-4">@Model.branchName()</h1>
+            <h1 class="display-4">@Model.viewContent.BranchName</h1>
         </div>
           
     </div>
 </div>
-
 <nav aria-label="breadcrumb w-100">
     <ol class="breadcrumb row rounded-0 ">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Library</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Data</li>
+        <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
+        <li class="breadcrumb-item"><a asp-page="BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
+        <li class="breadcrumb-item">@Model.viewContent.BranchName</li>
     </ol>
 </nav>
 <br />

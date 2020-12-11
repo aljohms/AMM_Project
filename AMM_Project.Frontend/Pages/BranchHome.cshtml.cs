@@ -19,10 +19,14 @@ namespace AMM_Project.Frontend.Pages
                 this.branchItemService = branchItemService;
                 this.branchService = branchService;
              }
-            public string branchName()
-            {
-                     return branchService.Find(Id.Value).Name;
+            public class ViewContent
+             {
+            public long BusnissId { get; set; }
+            public string BranchName { get; set; }
+            public string BusinessName { get; set; }
             }
+            public ViewContent viewContent = new ViewContent();
+           
             public IList<BranchItem> branchItems;
             [BindProperty]
             public BranchItem BranchItem { set; get; }
@@ -32,8 +36,14 @@ namespace AMM_Project.Frontend.Pages
             {
                 if (Id.HasValue)
                 branchItems = await branchItemService.GetAllAsync(Id.Value);
-            }
-            public async Task<IActionResult> OnPostAsync()
+
+            var _branchService = branchService.Find(Id.Value);
+                viewContent.BranchName = _branchService.Name;
+                viewContent.BusnissId= _branchService.BusinessId;
+                viewContent.BusinessName= _branchService.Business.Name;
+
+        }
+        public async Task<IActionResult> OnPostAsync()
             {
                 //Validate From [Check for requred fields and errors then populate the corresponding message]
                 if (!ModelState.IsValid)

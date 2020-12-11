@@ -11,6 +11,12 @@
         <div><a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Add New</a></div>
     </div>
 </div>
+<nav aria-label="breadcrumb w-100">
+    <ol class="breadcrumb row rounded-0 ">
+        <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
+        <li class="breadcrumb-item">@Model.currentBusiness()</li>
+    </ol>
+</nav>
 <br />
 <!--Businesses List-->
 <div class="row justify-content-between ">

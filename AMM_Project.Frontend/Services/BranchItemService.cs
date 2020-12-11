@@ -27,7 +27,7 @@ namespace AMM_Project.Frontend.Services
 
         public BranchItem Find(long id)
         {
-            return _context.BranchItem.FirstOrDefault(x => x.Id == id);
+            return _context.BranchItem.Include(x=>x.Branch).ThenInclude(x=>x.Business).FirstOrDefault(x => x.Id == id);
         }
 
         public Task<BranchItem> FindAsync(long id)
@@ -42,7 +42,7 @@ namespace AMM_Project.Frontend.Services
         {
             var actualCount = count.GetValueOrDefault(10);
 
-            return _context.BranchItem.Include(x => x.Branch).Where(x => x.Branch.Id == id)
+            return _context.BranchItem.Include(x => x.Branch).ThenInclude(x=>x.Business).Where(x => x.Branch.Id == id)
                     .Skip(actualCount * page.GetValueOrDefault(0))
                     .Take(actualCount);
         }
