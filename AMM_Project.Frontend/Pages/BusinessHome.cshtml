@@ -1,0 +1,101 @@
+﻿@page "{id?}"
+@model BusinessHomeModel
+@{
+}
+<!--Section 1-->
+<div class="row justify-content-center">
+    <div class="card rounded-0 shadow w-100">
+        <div class="col text-center">
+            <h1 class="display-4">@Model.currentBusiness()</h1>
+        </div>
+        <div><a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Add New</a></div>
+    </div>
+</div>
+<br />
+<!--Businesses List-->
+<div class="row justify-content-between ">
+    @if (Model.branches != null)
+        foreach (var branch in Model.branches)
+        {
+            <div class="card w-49 shadow rounded-10 ">
+                <a asp-page="BranchHome" asp-route-id="@branch.Id" class="btn">
+
+                    <div class="row no-gutters">
+                        <div class="col pt-5">
+                            <div class="card-block px-2">
+                                <h1>@branch.Name</h1>
+                                <h1>@branch.Location</h1>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>
+            </div>
+        }
+</div>
+<br />
+<!--Businesses List End-->
+<!--Section 2-->
+<div class="row justify-content-center">
+    <div class="card rounded-top shadow w-100">
+        <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
+        <div class="card-body">
+            <table class="table  table-borderless">
+                <tbody>
+                    <tr class="border-bottom">
+                        <td>Mark</td>
+                        <td>Otto</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<!--End Section 2-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title display-5" id="myModalLabel">New Branch</div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Branch.Name"></label>
+                        <input asp-for="Branch.Name" class="form-control" />
+                        <span asp-validation-for="Branch.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Branch.Location"></label>
+                        <input asp-for="Branch.Location" class="form-control" />
+                        <span asp-validation-for="Branch.Location" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <div class="form-group pt-2  ">
+                        <button type="submit" class="btn btn-primary rounded-0 shadow ">Save changes</button>
+
+                        <button type="button" class="btn btn-danger  rounded-0 shadow" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

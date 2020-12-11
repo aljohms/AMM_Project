@@ -1,0 +1,94 @@
+﻿@page "{id?}"
+
+@model BranchHomeModel
+@{
+}
+<!--Section 1-->
+<div class="row justify-content-center">
+    <div class="card rounded-0 shadow w-100">
+        <div class="card-body col text-center">
+            <h1 class="display-4">@Model.branchName()</h1>
+        </div>
+          
+    </div>
+</div>
+
+<nav aria-label="breadcrumb w-100">
+    <ol class="breadcrumb row rounded-0 ">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Data</li>
+    </ol>
+</nav>
+<br />
+<div class="row justify-content-between ">
+    <div class="card w-49 shadow rounded-10 ">
+        <a asp-page="Employees" asp-route-id="" class="btn">
+            <div class="row no-gutters">
+                <div class="col pt-5">
+                    <div class="card-block px-2">
+                        <h1>الموظفين</h1>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>
+    </div>
+    <div class="card w-49 shadow rounded-10">
+        <a asp-page="Employees" asp-route-id="" class="btn">
+            <div class="row no-gutters">
+                <div class="col pt-5">
+                    <div class="card-block px-2">
+                        <h1>الفرع</h1>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>
+    </div>
+</div>
+<br />
+<div class="row  justify-content-between">
+    <div class="card rounded-top shadow w-49">
+        <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
+        <div class="card-body">
+            <table class="table  table-borderless">
+                <tbody>
+                    <tr class="border-bottom">
+                        <td>Mark</td>
+                        <td>Otto</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card rounded-top shadow w-49">
+        <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
+        <div class="card-body">
+            <table class="table  table-borderless">
+                <tbody>
+                    <tr class="border-bottom">
+                        <td>Mark</td>
+                        <td>Otto</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
