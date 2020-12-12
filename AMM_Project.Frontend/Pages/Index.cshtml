@@ -1,13 +1,43 @@
 ﻿@page
 @model IndexModel
 @section scripts {
-    <script>
+    <script type="text/javascript">
         // Add the following code if you want the name of the file appear on select
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
+        @section Scripts{
 
+        $(document).ready(function () {
+            if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
+                $('#Open-Business-Dialog').modal('show');
+            }
+        });
+
+        $(document).on("click", ".Open-Business-Dialog", function (e) {
+            e.preventDefault();
+            var _self = $(this);
+            var id = _self.data('business').id;
+
+
+
+            if (id>0) {
+                var location = _self.data('business').location;
+                var name = _self.data('business').name;
+                $("#id").val(id);
+                $("#name").val(name);
+                $("#location").val(location);
+                document.querySelector(".modal-title").innerHTML = "Edit Branch";
+            } else {
+                $("#id").val(0);
+                $("#name").val('');
+                $("#location").val('');
+                document.querySelector(".modal-title").innerHTML = "New Branch";
+            }
+
+            $(_self.attr('href')).modal('show');
+        });
     </script>
 }
 @{
@@ -29,32 +59,32 @@
     @if (Model.businesses != null)
         @foreach (var b in Model.businesses)
         {
-    <div class="card w-49 shadow rounded-10" >
-        <a asp-page="BusinessHome" asp-route-id="@b.Id" class="btn">
+            <div class="card w-49 shadow rounded-10">
+                <a asp-page="BusinessHome" asp-route-id="@b.Id" class="btn">
 
-            <div class="row no-gutters">
+                    <div class="row no-gutters">
 
-                <div class="col-auto">
-                    @if (b.GetInlineImageSrc() != null)
-                    {
-                        <img src="@b.GetInlineImageSrc()" class="img-fluid" style="height:200px;width:200px;" />
-                    }
-                    else
-                    {
-                        <img src="~/media/img_placeholder.png" class="img-fluid" style="height:200px;width:200px;" />
-                    }
-                </div>
-                <div class="col pt-5">
-                    <div class="card-block px-2">
-                        <h4 class="card-title text-center">@b.Name</h4>
-                        <p class="card-text text-center">@b.ActivityField</p>
+                        <div class="col-auto">
+                            @if (b.GetInlineImageSrc() != null)
+                            {
+                                <img src="@b.GetInlineImageSrc()" class="img-fluid" style="height:200px;width:200px;" />
+                            }
+                            else
+                            {
+                                <img src="~/media/img_placeholder.png" class="img-fluid" style="height:200px;width:200px;" />
+                            }
+                        </div>
+                        <div class="col pt-5">
+                            <div class="card-block px-2">
+                                <h4 class="card-title text-center">@b.Name</h4>
+                                <p class="card-text text-center">@b.ActivityField</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </a>
+                </a>
 
-        <a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>
-    </div>
+                <a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>
+            </div>
         }
 </div>
 <br />
@@ -64,7 +94,7 @@
     <div class="card rounded-top shadow w-100">
         <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
         <div class="card-body">
-            <table class="table  table-borderless">            
+            <table class="table  table-borderless">
                 <tbody>
                     <tr class="border-bottom">
                         <td>Mark</td>

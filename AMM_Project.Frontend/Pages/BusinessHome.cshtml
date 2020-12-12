@@ -5,22 +5,31 @@
 
         $(document).ready(function () {
             if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
-                $('#PasswordDialog').modal('show');
+                $('#Open-Branch-Dialog').modal('show');
             }
         });
 
-        $(document).on("click", ".open-Dialog", function (e) {
+        $(document).on("click", ".Open-Branch-Dialog", function (e) {
             e.preventDefault();
             var _self = $(this);
             var id = _self.data('branch').id;
-            var location = _self.data('branch').location;
-            var name = _self.data('branch').name;
-            $("#id").val(id);
-            $("#name").val(name);
-            $("#location").val(location);
+            
+           
 
+            if (id>0) {
+                var location = _self.data('branch').location;
+                var name = _self.data('branch').name;
+                $("#id").val(id);
+                $("#name").val(name);
+                $("#location").val(location);
+                document.querySelector(".modal-title").innerHTML = "Edit Branch";
+            } else {
+                $("#id").val(0);
+                $("#name").val('');
+                $("#location").val('');
+                document.querySelector(".modal-title").innerHTML = "New Branch";
+            }
 
-            document.querySelector(".modal-title").innerHTML = "Edit Branch" + id;
             $(_self.attr('href')).modal('show');
         });
     </script>
@@ -37,7 +46,7 @@
             <div class="col text-center">
                 <h1 class="display-4">@Model.currentBusiness</h1>
             </div>
-            <div><a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Add New</a></div>
+            <a data-branch='{"id":"","name":"","location":""}' title="Add this item" class="Open-Branch-Dialog btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" href="#BranchModal">Add New</a>
         </div>
     </div>
 
@@ -61,8 +70,7 @@
             </a>
 
             @*<a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>*@
-            <a data-branch='{"id":"@branch.Id","name:"@branch.Name","location":"@branch.Location"}' title="Add this item" class="open-Dialog btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" href="#exampleModal">Reset</a>
-
+            <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Add this item" class="Open-Branch-Dialog btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" href="#BranchModal">Edit</a>
         </div>
             }
     </div>
@@ -95,7 +103,7 @@
     <br />
     <!--End Section 2-->
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="BranchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form method="post" enctype="multipart/form-data">
                 <div class="modal-content">
@@ -105,17 +113,17 @@
                     </div>
                     <div class="modal-body">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="Branch.Id" value="0" />
+                        <input type="hidden" asp-for="Branch.Id" id="id" value="0" />
 
                         <h1 id="id"></h1>
                         <div class="form-group">
                             <label asp-for="Branch.Name"></label>
-                            <input asp-for="Branch.Name" class="form-control" />
+                            <input asp-for="Branch.Name" id="name" value="" class="form-control" />
                             <span asp-validation-for="Branch.Name" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Branch.Location"></label>
-                            <input asp-for="Branch.Location" class="form-control" />
+                            <input asp-for="Branch.Location" id="location" value="" class="form-control" />
                             <span asp-validation-for="Branch.Location" class="text-danger"></span>
                         </div>
 
