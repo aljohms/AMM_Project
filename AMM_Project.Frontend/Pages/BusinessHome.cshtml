@@ -1,107 +1,136 @@
 ﻿@page "{id?}"
 @model BusinessHomeModel
-@{
-}
-<!--Section 1-->
-<div class="row justify-content-center">
-    <div class="card rounded-0 shadow w-100">
-        <div class="col text-center">
-            <h1 class="display-4">@Model.currentBusiness()</h1>
-        </div>
-        <div><a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Add New</a></div>
-    </div>
-</div>
-<nav aria-label="breadcrumb w-100">
-    <ol class="breadcrumb row rounded-0 ">
-        <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
-        <li class="breadcrumb-item">@Model.currentBusiness()</li>
-    </ol>
-</nav>
-<br />
-<!--Businesses List-->
-<div class="row justify-content-between ">
-    @if (Model.branches != null)
-        foreach (var branch in Model.branches)
-        {
-            <div class="card w-49 shadow rounded-10 ">
-                <a asp-page="BranchHome" asp-route-id="@branch.Id" class="btn">
+@section Scripts{ 
+    <script type="text/javascript">
 
-                    <div class="row no-gutters">
-                        <div class="col pt-5">
-                            <div class="card-block px-2">
-                                <h1>@branch.Name</h1>
-                                <h1>@branch.Location</h1>
-                            </div>
+        $(document).ready(function () {
+            if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
+                $('#PasswordDialog').modal('show');
+            }
+        });
+
+        $(document).on("click", ".open-Dialog", function (e) {
+            e.preventDefault();
+            var _self = $(this);
+            var id = _self.data('branch').id;
+            var location = _self.data('branch').location;
+            var name = _self.data('branch').name;
+            $("#id").val(id);
+            $("#name").val(name);
+            $("#location").val(location);
+
+
+            document.querySelector(".modal-title").innerHTML = "Edit Branch" + id;
+            $(_self.attr('href')).modal('show');
+        });
+    </script>
+}
+    <!--Section 1-->
+    <nav aria-label="breadcrumb w-100">
+        <ol class="breadcrumb row ">
+            <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
+            <li class="breadcrumb-item active">@Model.currentBusiness</li>
+        </ol>
+    </nav>
+    <div class="row justify-content-center">
+        <div class="card rounded-0 shadow w-100">
+            <div class="col text-center">
+                <h1 class="display-4">@Model.currentBusiness</h1>
+            </div>
+            <div><a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Add New</a></div>
+        </div>
+    </div>
+
+    <br />
+    <!--Businesses List-->
+    <div class="row justify-content-between ">
+        @if (Model.branches != null)
+            foreach (var branch in Model.branches)
+            {
+        <div class="card w-49 shadow rounded-10 ">
+            <a asp-page="BranchHome" asp-route-id="@branch.Id" class="btn">
+
+                <div class="row no-gutters">
+                    <div class="col pt-5">
+                        <div class="card-block px-2">
+                            <h1>@branch.Name</h1>
+                            <h1>@branch.Location</h1>
                         </div>
                     </div>
-                </a>
+                </div>
+            </a>
 
-                <a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>
+            @*<a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>*@
+            <a data-branch='{"id":"@branch.Id","name:"@branch.Name","location":"@branch.Location"}' title="Add this item" class="open-Dialog btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" href="#exampleModal">Reset</a>
+
+        </div>
+            }
+    </div>
+    <br />
+    <!--Businesses List End-->
+    <!--Section 2-->
+    <div class="row justify-content-center">
+        <div class="card rounded-top shadow w-100">
+            <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
+            <div class="card-body">
+                <table class="table  table-borderless">
+                    <tbody>
+                        <tr class="border-bottom">
+                            <td>Mark</td>
+                            <td>Otto</td>
+                        </tr>
+                        <tr class="border-bottom">
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                        </tr>
+                        <tr class="border-bottom">
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        }
-</div>
-<br />
-<!--Businesses List End-->
-<!--Section 2-->
-<div class="row justify-content-center">
-    <div class="card rounded-top shadow w-100">
-        <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
-        <div class="card-body">
-            <table class="table  table-borderless">
-                <tbody>
-                    <tr class="border-bottom">
-                        <td>Mark</td>
-                        <td>Otto</td>
-                    </tr>
-                    <tr class="border-bottom">
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                    </tr>
-                    <tr class="border-bottom">
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
-</div>
-<br />
-<!--End Section 2-->
+    <br />
+    <!--End Section 2-->
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form method="post" enctype="multipart/form-data">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title display-5" id="myModalLabel">New Branch</div>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Branch.Name"></label>
-                        <input asp-for="Branch.Name" class="form-control" />
-                        <span asp-validation-for="Branch.Name" class="text-danger"></span>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title display-5" id="myModalLabel">New Branch</div>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Branch.Location"></label>
-                        <input asp-for="Branch.Location" class="form-control" />
-                        <span asp-validation-for="Branch.Location" class="text-danger"></span>
-                    </div>
+                    <div class="modal-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Branch.Id" value="0" />
 
+                        <h1 id="id"></h1>
+                        <div class="form-group">
+                            <label asp-for="Branch.Name"></label>
+                            <input asp-for="Branch.Name" class="form-control" />
+                            <span asp-validation-for="Branch.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Branch.Location"></label>
+                            <input asp-for="Branch.Location" class="form-control" />
+                            <span asp-validation-for="Branch.Location" class="text-danger"></span>
+                        </div>
 
-                </div>
-                <div class="modal-footer">
-
-                    <div class="form-group pt-2  ">
-                        <button type="submit" class="btn btn-primary rounded-0 shadow ">Save changes</button>
-
-                        <button type="button" class="btn btn-danger  rounded-0 shadow" data-dismiss="modal">Close</button>
 
                     </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </form>
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                    <div class="modal-footer">
+
+                        <div class="form-group pt-2  ">
+                            <button type="submit" class="btn btn-primary rounded-0 shadow ">Save changes</button>
+
+                            <button type="button" class="btn btn-danger  rounded-0 shadow" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </form>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->

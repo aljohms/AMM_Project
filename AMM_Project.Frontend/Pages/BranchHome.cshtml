@@ -3,16 +3,11 @@
 @model BranchHomeModel
 @{
 }
+
+
+
 <!--Fuck git-->
 <!--Section 1-->
-<div class="row justify-content-center">
-    <div class="card rounded-0 shadow w-100">
-        <div class="card-body col text-center">
-            <h1 class="display-4">@Model.viewContent.BranchName</h1>
-        </div>
-          
-    </div>
-</div>
 <nav aria-label="breadcrumb w-100">
     <ol class="breadcrumb row rounded-0 ">
         <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
@@ -20,6 +15,15 @@
         <li class="breadcrumb-item">@Model.viewContent.BranchName</li>
     </ol>
 </nav>
+<div class="row justify-content-center">
+    <div class="card rounded-0 shadow w-100">
+        <div class="card-body col text-center">
+            <h1 class="display-4">@Model.viewContent.BranchName</h1>
+        </div>
+
+    </div>
+</div>
+
 <br />
 <div class="row justify-content-between ">
     <div class="card w-49 shadow rounded-10 ">

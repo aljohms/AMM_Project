@@ -32,15 +32,22 @@ namespace AMM_Project.Frontend.Pages
             public BranchItem BranchItem { set; get; }
             [FromRoute]
             public long? Id { set; get; }
-            public async Task OnGet()
+            public async Task<IActionResult> OnGet()
             {
                 if (Id.HasValue)
-                branchItems = await branchItemService.GetAllAsync(Id.Value);
-
-            var _branchService = branchService.Find(Id.Value);
-                viewContent.BranchName = _branchService.Name;
-                viewContent.BusnissId= _branchService.BusinessId;
-                viewContent.BusinessName= _branchService.Business.Name;
+                {
+                    branchItems = await branchItemService.GetAllAsync(Id.Value);
+                    var _branchService = branchService.Find(Id.Value);
+                    if (branchItems != null && _branchService != null)
+                    {
+                        viewContent.BranchName = _branchService.Name;
+                        viewContent.BusnissId = _branchService.BusinessId;
+                        viewContent.BusinessName = _branchService.Business.Name;
+                        return null;
+                    }
+                RedirectToPage("/Index");
+                }
+            return RedirectToPage("/Index");
 
         }
         public async Task<IActionResult> OnPostAsync()
