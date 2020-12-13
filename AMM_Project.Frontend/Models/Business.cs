@@ -21,6 +21,7 @@ namespace AMM_Project.Frontend.Models
         [Display(Name = "Contact Number")]
         public string ContactNumber { get; set; }
         #region Image
+        [Display(Name = "Logo")]
 
         public byte[] Image { get; set; }
 

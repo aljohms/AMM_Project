@@ -15,39 +15,39 @@ namespace AMM_Project.Frontend.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IBusinessService businessService;
-
-
         public IndexModel(ILogger<IndexModel> logger, IBusinessService businessService)
         {
             _logger = logger;
             this.businessService = businessService;
         }
-        public IList<Business> businesses;
-        public bool isNewBusiness { get { return Id == null; } }
-
-        [FromRoute]
-        public long? Id { set; get; }
+        public IList<Business> businesses; 
+        //Input from View
         [BindProperty]
         public Business Business { set; get; }
         [BindProperty]
         public IFormFile Image { get; set; }
+
         public async Task OnGetAsync()
         {
-            Business = await businessService.FindAsync(Id.GetValueOrDefault()) ?? new Business();
-            businesses = await businessService.GetAllAsync();
-
+           await GetBusinessList();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            //Validate From [Check for requred fields and errors then populate the corresponding message]
+            await GetBusinessList();
+
+            //Validate Form Check for required fields and errors then populate the corresponding message
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
-
-            //Recipe.Id = Id.GetValueOrDefault();
-            var business = await businessService.FindAsync(Id.GetValueOrDefault()) ?? new Business();//if the recipe doesnt exist create a new one
+            var business = await businessService.FindAsync(Business.Id) ?? new Business();//if the business doesnt exist create a new one 
+            //Check if the business Name unique if not return error
+            if(businesses.FirstOrDefault(x=>x.Name== Business.Name) !=null && business.Id!= businesses.FirstOrDefault(x => x.Name == Business.Name).Id)
+            {
+                ModelState.AddModelError("Business.Name","Business Already Exists");
+                await GetBusinessList();
+                return Page();
+            }
             //get data from the Bind Property Model
             business.Name = Business.Name;
             business.ActivityField = Business.ActivityField;
@@ -69,9 +69,13 @@ namespace AMM_Project.Frontend.Pages
                     business.ImageContentType = Image.ContentType;
                 }
             }
-
             await businessService.SaveAsync(business);
             return RedirectToPage();
+        }
+        public async Task GetBusinessList()
+        {
+            businesses = await businessService.GetAllAsync();
+
         }
     }
 }
