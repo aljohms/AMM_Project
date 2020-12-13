@@ -26,7 +26,7 @@ namespace AMM_Project.Frontend.Pages
         public Business Business { set; get; }
         [BindProperty]
         public IFormFile Image { get; set; }
-
+        public long TempId { get; set; }
         public async Task OnGetAsync()
         {
            await GetBusinessList();
@@ -34,6 +34,8 @@ namespace AMM_Project.Frontend.Pages
         public async Task<IActionResult> OnPostAsync()
         {
             await GetBusinessList();
+
+
 
             //Validate Form Check for required fields and errors then populate the corresponding message
             if (!ModelState.IsValid)

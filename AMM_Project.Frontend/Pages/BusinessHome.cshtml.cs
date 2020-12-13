@@ -50,6 +50,7 @@ namespace AMM_Project.Frontend.Pages
         }
         public async Task<IActionResult> OnPostAsync()
         {
+            await OnGet();
             //Validate From [Check for requred fields and errors then populate the corresponding message]
             if (!ModelState.IsValid)
             {

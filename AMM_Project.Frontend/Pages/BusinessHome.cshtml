@@ -5,7 +5,14 @@
 
         $(document).ready(function () {
             if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
-                $('#Open-Branch-Dialog').modal('show');
+                $('#BranchModal').modal('show');
+                var _self = $(this);
+                var id = _self.data('branch').id;
+                if (id > 0) {
+                    document.querySelector(".modal-title").innerHTML = "Edit Details";
+                } else {
+                    document.querySelector(".modal-title").innerHTML = "New Business";
+                }
             }
         });
 
@@ -13,7 +20,8 @@
             e.preventDefault();
             var _self = $(this);
             var id = _self.data('branch').id;
-            
+            $(".validation-summary-errors").empty();
+            $('.field-validation-error').empty();
            
 
             if (id>0) {
@@ -60,7 +68,7 @@
             <a asp-page="BranchHome" asp-route-id="@branch.Id" class="btn">
 
                 <div class="row no-gutters">
-                    <div class="col pt-5">
+                    <div class="col">
                         <div class="card-block px-2">
                             <h1>@branch.Name</h1>
                             <h1>@branch.Location</h1>
@@ -69,7 +77,6 @@
                 </div>
             </a>
 
-            @*<a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>*@
             <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Add this item" class="Open-Branch-Dialog btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" href="#BranchModal">Edit</a>
         </div>
             }
@@ -108,7 +115,7 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div class="modal-title display-5" id="myModalLabel">New Branch</div>
+                        <div class="modal-title display-5" id="myModalLabel"></div>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">

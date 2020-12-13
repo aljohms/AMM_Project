@@ -22,6 +22,8 @@ namespace AMM_Project.Frontend.Pages
             public class ViewContent
              {
             public long BusnissId { get; set; }
+            public long BranchId { get; set; }
+
             public string BranchName { get; set; }
             public string BusinessName { get; set; }
             }
@@ -43,7 +45,8 @@ namespace AMM_Project.Frontend.Pages
                         viewContent.BranchName = _branchService.Name;
                         viewContent.BusnissId = _branchService.BusinessId;
                         viewContent.BusinessName = _branchService.Business.Name;
-                        return null;
+                        viewContent.BranchId = _branchService.Id;
+                    return null;
                     }
                 RedirectToPage("/Index");
                 }

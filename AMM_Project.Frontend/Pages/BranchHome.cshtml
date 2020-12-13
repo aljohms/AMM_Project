@@ -6,7 +6,7 @@
         <ol class="breadcrumb row rounded-0 ">
             <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
             <li class="breadcrumb-item"><a asp-page="BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
-            <li class="breadcrumb-item">@Model.viewContent.BranchName</li>
+            <li class="breadcrumb-item active">@Model.viewContent.BranchName</li>
         </ol>
     </nav>
     <div class="row justify-content-center">
@@ -21,72 +21,74 @@
     <br />
     <div class="row justify-content-between ">
         <div class="card w-49 shadow rounded-10 ">
-            <a asp-page="Employees" asp-route-id="" class="btn">
+            <a asp-page="Employees" asp-route-id="@Model.viewContent.BranchId" class="btn">
+                <img class="card-img-top" src="~/media/employee.png" style="height:200px;width:200px;" />
+
                 <div class="row no-gutters">
-                    <div class="col pt-5">
+                    <div class="col ">
                         <div class="card-block px-2">
                             <h1>الموظفين</h1>
                         </div>
                     </div>
                 </div>
             </a>
-            <a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>
         </div>
+
         <div class="card w-49 shadow rounded-10">
-            <a asp-page="Employees" asp-route-id="" class="btn">
+            <a asp-page="BranchItems" asp-route-id="@Model.viewContent.BranchId" class="btn">
+                <img class="card-img-top img-fluid" src="~/media/store.png" style="height:200px;width:200px;" />
                 <div class="row no-gutters">
-                    <div class="col pt-5">
+                    <div class="col ">
                         <div class="card-block px-2">
                             <h1>الفرع</h1>
                         </div>
                     </div>
                 </div>
             </a>
-            <a class="btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Edit</a>
         </div>
-    </div>
-    <br />
-    <div class="row  justify-content-between">
-        <div class="card rounded-top shadow w-49">
-            <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
-            <div class="card-body">
-                <table class="table  table-borderless">
-                    <tbody>
-                        <tr class="border-bottom">
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                        </tr>
-                    </tbody>
-                </table>
+        </div>
+        <br />
+        <div class="row  justify-content-between">
+            <div class="card rounded-top shadow w-49">
+                <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
+                <div class="card-body">
+                    <table class="table  table-borderless">
+                        <tbody>
+                            <tr class="border-bottom">
+                                <td>Mark</td>
+                                <td>Otto</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card rounded-top shadow w-49">
+                <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
+                <div class="card-body">
+                    <table class="table  table-borderless">
+                        <tbody>
+                            <tr class="border-bottom">
+                                <td>Mark</td>
+                                <td>Otto</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="card rounded-top shadow w-49">
-            <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
-            <div class="card-body">
-                <table class="table  table-borderless">
-                    <tbody>
-                        <tr class="border-bottom">
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>

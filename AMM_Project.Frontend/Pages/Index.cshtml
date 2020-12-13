@@ -12,11 +12,11 @@
             if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
                 $('#BusinessModal').modal('show');
                 var _self = $(this);
-                var id = _self.data('business').id;
+                var id = _self.data('business').id;               
                 if (id > 0) {
-                    document.querySelector(".modal-title").innerHTML = "Edit Details";
-                } else {                  
-                    document.querySelector(".modal-title").innerHTML = "New Business";
+                    document.querySelector(".modal-title").innerHTML = "Edit Details" + id;
+                } else {
+                    document.querySelector(".modal-title").innerHTML = "New Business" + id;
                 }
             }
         });
@@ -25,6 +25,7 @@
             e.preventDefault();
             var _self = $(this);
             var id = _self.data('business').id;
+
             $(".validation-summary-errors").empty();
             $('.field-validation-error').empty();
 
@@ -35,12 +36,12 @@
                 $("#id").val(id);
                 $("#name").val(name);
                 $("#activity").val(activity);
-                document.querySelector(".modal-title").innerHTML = "Edit Details";
+                document.querySelector(".modal-title").innerHTML = "Edit Details" + id;
             } else {
                 $("#id").val(0);
                 $("#name").val('');
                 $("#activity").val('');
-                document.querySelector(".modal-title").innerHTML = "New Business";
+                document.querySelector(".modal-title").innerHTML = "New Business" + id;
             }
 
             $(_self.attr('href')).modal('show');
@@ -50,6 +51,7 @@
 @{
     ViewData["Title"] = "Home";
 }
+
 <!--Section 1-->
 <div class="row justify-content-center">
     <div class="card rounded-0 shadow w-100">
@@ -128,7 +130,7 @@
         <form method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="modal-title display-5" id="myModalLabel"></div>
+                    <div class="modal-title display-5" id="myModalLabel">@TempData["Temp"]</div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
