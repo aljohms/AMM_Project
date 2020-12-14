@@ -53,25 +53,7 @@ namespace AMM_Project.Frontend.Pages
             return RedirectToPage("/Index");
 
         }
-        public async Task<IActionResult> OnPostAsync()
-            {
-                //Validate From [Check for requred fields and errors then populate the corresponding message]
-                if (!ModelState.IsValid)
-                {
-                    return Page();
-                }
-
-
-                var branchItem = new BranchItem();
-                //branch.Name = Branch.Name;
-                //branch.Location = Branch.Location;
-                //branch.BusinessId = Id.Value;
-
-
-
-                await branchItemService.SaveAsync(branchItem);
-                return RedirectToPage();
-            }
-        }
+      
+    }
     
 }

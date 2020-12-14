@@ -1,42 +1,167 @@
 ﻿@page "{id?}"
 @model BranchItemsModel
-@{
+@section scripts {
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        $(document).ready(function () {
+            if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
+                $('#ItemModal').modal('show');
+                var _self = $(this);
+                var id = _self.data('Item').id;
+                if (id > 0) {
+                    document.querySelector(".modal-title").innerHTML = "Edit Item";
+                } else {
+                    document.querySelector(".modal-title").innerHTML = "New Item";
+                }
+            }
+        });
+
+        $(document).on("click", ".Open-Item-Dialog", function (e) {
+            e.preventDefault();
+            var _self = $(this);
+            //var id = _self.data('Item').id;
+
+            //$(".validation-summary-errors").empty();
+            //$('.field-validation-error').empty();
+
+
+            //if (id > 0) {
+            //    var title = _self.data('Item').title;
+            //    var num = _self.data('Item').num;
+            //    var date = _self.data('Item').date;
+            //    var cost = _self.data('Item').cost;
+
+            //    $("#id").val(id);
+            //    $("#title").val(title);
+            //    $("#num").val(num);
+            //    $("#date").val(date);
+            //    $("#cost").val(cost);
+            //    document.querySelector(".modal-title").innerHTML = "Edit Item";
+            //} else {
+            //    $("#id").val(0);
+            //    $("#num").val('');
+            //    $("#lname").val('');
+            //    $("#date").val('');
+            //    $("#cost").val('');
+            //    document.querySelector(".modal-title").innerHTML = "New Item";
+            //}
+
+            $(_self.attr('href')).modal('show');
+        });
+    </script>
 }
 <nav aria-label="breadcrumb w-100">
     <ol class="breadcrumb row rounded-0 ">
         <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
         <li class="breadcrumb-item"><a asp-page="BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
         <li class="breadcrumb-item"><a asp-page="BranchHome" asp-route-id="@Model.viewContent.BranchId">@Model.viewContent.BranchName</a></li>
-        <li class="breadcrumb-item active">الفرع</li>
+        <li class="breadcrumb-item active">Branch</li>
     </ol>
 </nav>
-<!--Add Employees-->
+<!--Add Items-->
 <div class="row justify-content-center">
     <div class="card rounded-top shadow w-100">
         <div class="card-header border-bottom-0 display-5 text-center">
-            Documents
+            Items
         </div>
 
-        <a class="btn btn-dark text-light rounded-0 align-bottom w-100" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">Add New</a>
+        <a data-Item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add this item" class="Open-Item-Dialog btn btn-dark rounded-0 align-bottom w-100" style="cursor:pointer;" href="#ItemModal">Add New</a>
 
         <div class="card-body">
             <table class="table  table-borderless">
+                <thead class="bg-light font-weight-bold">
+                    <tr class="border-bottom">
+                        <td>Doc Title</td>
+                        <td>Doc Number</td>
+                        <td>Expiry Date</td>
+                        <td>Attachment</td>
+                        <td>Cost</td>
+                        <td></td>
+
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr class="border-bottom">
-                        <td>Mark</td>
-                        <td>Otto</td>
-                    </tr>
-                    <tr class="border-bottom">
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                    </tr>
-                    <tr class="border-bottom">
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                    </tr>
+
+                    @if (Model.branchItems != null)
+                    {
+                        foreach (var Item in Model.branchItems)
+                        {
+                            <tr class="border-bottom">
+
+                                <td>@Item.DocumentTitle</td>
+                                <td>@Item.DocumentNumber</td>
+                                <td>@Item.ExpDate</td>
+                                <td>@Item.Attachment</td>
+                                <td>@Item.AnnualCost</td>
+                                <td>
+                                    <a data-Item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate","cost":"@Item.AnnualCost"}' title="Add this item" class="Open-Item-Dialog btn btn-dark rounded-0 align-bottom w-100" style="cursor:pointer;" href="#ItemModal">Edit</a>
+                                </td>
+                                <td><a class="btn btn-danger text-light">Delete</a></td>
+                            </tr>
+
+                        }
+                    }
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<!--Add Employee Item-->
+<!--Add Item Item-->
+<!-- Modal Form-->
+<div class="modal fade" id="ItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title display-5" id="myModalLabel"></div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    @*<input type="text" name="bookId" id="id" value="" />*@
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="BranchItem.Id" id="id" value="0" />
+                    <div class="form-group">
+                        <label asp-for="BranchItem.DocumentTitle"></label>
+                        <input asp-for="BranchItem.DocumentTitle" id="title" class="form-control" />
+                        <span asp-validation-for="BranchItem.DocumentTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BranchItem.DocumentNumber"></label>
+                        <input asp-for="BranchItem.DocumentNumber" id="num" class="form-control" />
+                        <span asp-validation-for="BranchItem.DocumentNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BranchItem.ExpDate"></label>
+                        <input asp-for="BranchItem.ExpDate" id="date" class="form-control" />
+                        <span asp-validation-for="BranchItem.ExpDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BranchItem.AnnualCost"></label>
+                        <input asp-for="BranchItem.AnnualCost" id="cost" class="form-control" />
+                        <span asp-validation-for="BranchItem.AnnualCost" class="text-danger"></span>
+                    </div>
+                    <div class="form-group border-0">
+                        <div class="custom-file mb-3">
+                            <input type="file" asp-for="Attachment" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose Attachment</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <div class="form-group pt-2  ">
+                            <button type="submit" class="btn btn-primary rounded-10 shadow ">Save changes</button>
+                            <button type="button" class="btn btn-danger  rounded-10 shadow" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

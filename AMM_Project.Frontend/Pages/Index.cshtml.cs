@@ -26,7 +26,6 @@ namespace AMM_Project.Frontend.Pages
         public Business Business { set; get; }
         [BindProperty]
         public IFormFile Image { get; set; }
-        public long TempId { get; set; }
         public async Task OnGetAsync()
         {
            await GetBusinessList();

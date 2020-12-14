@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AMM_Project.Frontend.Models;
 using AMM_Project.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,11 +12,17 @@ namespace AMM_Project.Frontend.Pages
     public class EmployeesModel : PageModel
     {
         private readonly IBranchService branchService;
+        private readonly IEmployeeService employeeService;
 
-        public EmployeesModel( IBranchService branchService)
+
+        public EmployeesModel( IBranchService branchService, IEmployeeService employeeService)
         {
             this.branchService = branchService;
+            this.employeeService = employeeService;
         }
+        [BindProperty]
+        public Employee Employee { set; get; }
+        public IList<Employee> employees;
         public class ViewContent
         {
             public long BusnissId { get; set; }
@@ -31,20 +38,44 @@ namespace AMM_Project.Frontend.Pages
         {
             if (Id.HasValue)
             {
-                var _branchService = branchService.Find(Id.Value);
-                if (_branchService != null)
+                var getBranch = branchService.Find(Id.Value);
+                employees = employeeService.GetAllAsync().Result.Where(x => x.BranchId == Id.Value).ToList();
+                if (getBranch != null)
                 {
-                    viewContent.BranchName = _branchService.Name;
-                    viewContent.BusnissId = _branchService.BusinessId;
-                    viewContent.BusinessName = _branchService.Business.Name;
-                    viewContent.BranchId = _branchService.Id;
+                    viewContent.BranchName = getBranch.Name;
+                    viewContent.BusnissId = getBranch.BusinessId;
+                    viewContent.BusinessName = getBranch.Business.Name;
+                    viewContent.BranchId = getBranch.Id;
                     return null;
                 }
-
                 RedirectToPage("/Index");
             }
              return RedirectToPage("/Index");
+        }
 
+        public async Task<IActionResult> OnPostAsync()
+        {
+             OnGet();
+            //Validate From [Check for requred fields and errors then populate the corresponding message]
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            //Recipe.Id = Id.GetValueOrDefault();
+            //var branch =  new Branch();//if the recipe doesnt exist create a new one
+            var employee = await employeeService.FindAsync(Employee.Id) ?? new Employee();//if the recipe doesnt exist create a new one
+                                                                                          //get data from the Bind Property Model
+            employee.FirstName = Employee.FirstName;
+            employee.LastName = Employee.LastName;
+            employee.ContactNumber = Employee.ContactNumber;
+            employee.Email = Employee.Email;
+            employee.BranchId = Id.Value;
+
+
+
+            await employeeService.SaveAsync(employee);
+            return RedirectToPage();
         }
     }
 }
