@@ -68,9 +68,10 @@ namespace AMM_Project.Frontend.Pages
             //Recipe.Id = Id.GetValueOrDefault();
             //var branch =  new Branch();//if the recipe doesnt exist create a new one
             var branchItem = await branchItemService.FindAsync(BranchItem.Id) ?? new BranchItem();//if the recipe doesnt exist create a new one
-            branchItem.DocumentTitle = BranchItem.DocumentNumber;
+            branchItem.DocumentTitle = BranchItem.DocumentTitle;
             branchItem.DocumentNumber = BranchItem.DocumentNumber;
             branchItem.ExpDate = BranchItem.ExpDate;
+            branchItem.AnnualCost = BranchItem.AnnualCost;
             branchItem.Notified = false;
             if (Attachment != null)
             {

@@ -24,33 +24,32 @@
         $(document).on("click", ".Open-Item-Dialog", function (e) {
             e.preventDefault();
             var _self = $(this);
-            //var id = _self.data('Item').id;
 
-            //$(".validation-summary-errors").empty();
-            //$('.field-validation-error').empty();
+            var id = _self.data('item').id;
 
+            $(".validation-summary-errors").empty();
+            $('.field-validation-error').empty();
 
-            //if (id > 0) {
-            //    var title = _self.data('Item').title;
-            //    var num = _self.data('Item').num;
-            //    var date = _self.data('Item').date;
-            //    var cost = _self.data('Item').cost;
+            if (id > 0) {
+                var title = _self.data('item').title;
+                var num = _self.data('item').num;
+                var date = _self.data('item').date;
+                var cost = _self.data('item').cost;
 
-            //    $("#id").val(id);
-            //    $("#title").val(title);
-            //    $("#num").val(num);
-            //    $("#date").val(date);
-            //    $("#cost").val(cost);
-            //    document.querySelector(".modal-title").innerHTML = "Edit Item";
-            //} else {
-            //    $("#id").val(0);
-            //    $("#num").val('');
-            //    $("#lname").val('');
-            //    $("#date").val('');
-            //    $("#cost").val('');
-            //    document.querySelector(".modal-title").innerHTML = "New Item";
-            //}
-
+                $("#id").val(id);
+                $("#title").val(title);
+                $("#num").val(num);
+                $("#date").val(date);
+                $("#cost").val(cost);
+                document.querySelector(".modal-title").innerHTML = "Edit Item";
+            } else {
+                $("#id").val(0);
+                $("#num").val('');
+                $("#title").val('');
+                $("#date").val('');
+                $("#cost").val('');
+                document.querySelector(".modal-title").innerHTML = "New Item";
+            }
             $(_self.attr('href')).modal('show');
         });
     </script>
@@ -70,7 +69,7 @@
             Items
         </div>
 
-        <a data-Item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add this item" class="Open-Item-Dialog btn btn-dark rounded-0 align-bottom w-100" style="cursor:pointer;" href="#ItemModal">Add New</a>
+        <a data-item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add this item" class="Open-Item-Dialog btn btn-dark rounded-0 align-bottom w-100" style="cursor:pointer;" href="#ItemModal">Add New</a>
 
         <div class="card-body">
             <table class="table  table-borderless">
@@ -99,7 +98,7 @@
                                 <td>@Item.Attachment</td>
                                 <td>@Item.AnnualCost</td>
                                 <td>
-                                    <a data-Item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate","cost":"@Item.AnnualCost"}' title="Add this item" class="Open-Item-Dialog btn btn-dark rounded-0 align-bottom w-100" style="cursor:pointer;" href="#ItemModal">Edit</a>
+                                    <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate","cost":"@Item.AnnualCost"}' title="Add this item" class="Open-Item-Dialog btn btn-dark rounded-0 align-bottom w-100" style="cursor:pointer;" href="#ItemModal">Edit</a>
                                 </td>
                                 <td><a class="btn btn-danger text-light">Delete</a></td>
                             </tr>
