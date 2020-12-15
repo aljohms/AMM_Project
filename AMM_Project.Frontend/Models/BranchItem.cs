@@ -27,20 +27,6 @@ namespace AMM_Project.Frontend.Models
         public byte[] Attachment { get; set; }
         public string FileName { get; set; }
 
-//        public string GetInlineImageSrc()
-//        {
-//            if (Attachment == null || ImageContentType == null)
-//                return null;
-//            string mimeType = "application/octet-stream"
-//;
-//            return new FileContentResult(Attachment, mimeType)
-//            {
-                
-//            };
-//           // var base64Image = System.Convert.ToBase64String(Attachment);
-//            //return $"data:{ImageContentType};base64,{base64Image}";
-//        }
-
         public void SetImage(Microsoft.AspNetCore.Http.IFormFile file)
         {
             if (file == null)
