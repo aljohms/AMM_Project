@@ -31,6 +31,8 @@ namespace AMM_Project.Frontend
             services.AddScoped<IBranchService, BranchService>();//add service for loose coupling
             services.AddScoped<IBranchItemService, BranchItemService>();//add service for loose coupling
             services.AddScoped<IEmployeeService, EmployeeService>();//add service for loose coupling
+            services.AddScoped<IEmployeeItemService, EmployeeItemService>();//add service for loose coupling
+
             services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("Backend"));
 
         }
