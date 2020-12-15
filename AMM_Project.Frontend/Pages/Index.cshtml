@@ -14,9 +14,9 @@
                 var _self = $(this);
                 var id = _self.data('business').id;               
                 if (id > 0) {
-                    document.querySelector(".modal-title").innerHTML = "Edit Details" + id;
+                    document.querySelector(".modal-title").innerHTML = "Edit Details";
                 } else {
-                    document.querySelector(".modal-title").innerHTML = "New Business" + id;
+                    document.querySelector(".modal-title").innerHTML = "New Business";
                 }
             }
         });
@@ -36,12 +36,12 @@
                 $("#id").val(id);
                 $("#name").val(name);
                 $("#activity").val(activity);
-                document.querySelector(".modal-title").innerHTML = "Edit Details" + id;
+                document.querySelector(".modal-title").innerHTML = "Edit Details";
             } else {
                 $("#id").val(0);
                 $("#name").val('');
                 $("#activity").val('');
-                document.querySelector(".modal-title").innerHTML = "New Business" + id;
+                document.querySelector(".modal-title").innerHTML = "New Business";
             }
 
             $(_self.attr('href')).modal('show');
@@ -54,11 +54,12 @@
 
 <!--Section 1-->
 <div class="row justify-content-center">
-    <div class="card rounded-0 shadow w-100">
+    <div class="card rounded-10 shadow w-100">
         <div class="col text-center">
-            <h1 class="display-4">My Businesses</h1>
+            <h1 class="display-4">
+                My Businesses         <a data-business='{"id":"","name":"","activity":""}' title="Add this item" class="Open-Business-Dialog btn text-success"  style="cursor:pointer;" href="#BusinessModal"><span class="oi oi-plus"></span></a>
+            </h1>
         </div>
-        <a data-business='{"id":"","name":"","activity":""}' title="Add this item" class="Open-Business-Dialog btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" href="#BusinessModal">Add New</a>
     </div>
 </div>
 <br />
@@ -92,7 +93,7 @@
             </div>
         </a>
 
-        <a data-business='{"id":"@b.Id","name":"@b.Name","activity":"@b.ActivityField"}' title="Add this item" class="Open-Business-Dialog btn btn-light rounded-10 align-bottom w-100" style="cursor:pointer;" href="#BusinessModal">Edit</a>
+        <a data-business='{"id":"@b.Id","name":"@b.Name","activity":"@b.ActivityField"}' title="Add this item" class="Open-Business-Dialog bg-primary btn rounded-0 text-light" style="cursor:pointer;" href="#BusinessModal"><span class="oi oi-pencil"></span></a>
     </div>
         }
 </div>

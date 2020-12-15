@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using AMM_Project.Frontend.Models;
 using AMM_Project.Frontend.Services;
@@ -84,13 +86,30 @@ namespace AMM_Project.Frontend.Pages
                     //Convert it to bytes and assign them to the recipe object by calling the memory streams ToArray method. 
                     branchItem.Attachment = Stream.ToArray();
                     //Get the image's content type from the meta data on the uploaded image file property and copy that to the recipe as well. 
-                    branchItem.ImageContentType = Attachment.ContentType;
+                    branchItem.FileName = Attachment.FileName;
                 }
             }
 
             branchItem.BranchId = Id.Value;
             await branchItemService.SaveAsync(branchItem);
             return RedirectToPage();
+        }
+        public async Task<IActionResult> OnGetDownloadDbAsync(long? id)
+        {
+            if (id == null)
+            {
+                return Page();
+            }
+
+            var requestFile = await branchItemService.FindAsync(id.Value);
+
+            if (requestFile == null)
+            {
+                return Page();
+            }
+
+            // Don't display the untrusted file name in the UI. HTML-encode the value.
+            return File(requestFile.Attachment, MediaTypeNames.Application.Octet, WebUtility.HtmlEncode(requestFile.FileName));
         }
     }
 }

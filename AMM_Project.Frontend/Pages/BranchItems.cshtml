@@ -66,21 +66,20 @@
 <div class="row justify-content-center">
     <div class="card rounded-top shadow w-100">
         <div class="card-header border-bottom-0 display-5 text-center">
-            Items
+            Branch Documents
         </div>
-
-        <a data-item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add this item" class="Open-Item-Dialog btn btn-dark rounded-0 align-bottom w-100" style="cursor:pointer;" href="#ItemModal">Add New</a>
-
         <div class="card-body">
-            <table class="table  table-borderless">
+            <a data-item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add this item" class="Open-Item-Dialog btn text-success rounded-10 align-bottom " style="cursor:pointer;" href="#ItemModal"><span class="oi oi-plus" title="Add New Document" aria-hidden="true"></span></a>
+
+            <table class="table  table-borderless w-100 ">
                 <thead class="bg-light font-weight-bold">
                     <tr class="border-bottom">
                         <td>Doc Title</td>
                         <td>Doc Number</td>
                         <td>Expiry Date</td>
-                        <td>Attachment</td>
-                        <td>Cost</td>
+                        <td>Fees</td>
                         <td></td>
+
 
                     </tr>
                 </thead>
@@ -88,22 +87,50 @@
 
                     @if (Model.branchItems != null)
                     {
+                        string color = "";
+                        long total = 0;
                         foreach (var Item in Model.branchItems)
                         {
-                            <tr class="border-bottom">
+                            @if (Item.ExpDate.AddDays(-30).Date <= DateTime.Today)
+                            {
+                                color = "bg-danger text-light";
+                            }
+                            else
+                            {
+                                 color = "";
+                            }
+                            <tr class="border-bottom @color ">
 
                                 <td>@Item.DocumentTitle</td>
                                 <td>@Item.DocumentNumber</td>
-                                <td>@Item.ExpDate</td>
-                                <td>@Item.Attachment</td>
+                                <td>@Item.ExpDate.ToString("yyyy-MM-dd")</td>
+                                @if(Item.AnnualCost!=null)
+                                {
+                                    total += Item.AnnualCost.Value;
+                                }
                                 <td>@Item.AnnualCost</td>
+
                                 <td>
-                                    <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate","cost":"@Item.AnnualCost"}' title="Add this item" class="Open-Item-Dialog btn btn-dark rounded-0 align-bottom w-100" style="cursor:pointer;" href="#ItemModal">Edit</a>
+                                    @if (Item.FileName != null)
+                                    {
+                                        <a class="btn" asp-page-handler="DownloadDb" asp-route-id="@Item.Id"><span class="oi oi-cloud-download" title="Download" aria-hidden="true"></span></a>
+                                    }
+                                    <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate.ToString("yyyy-MM-dd")","cost":"@Item.AnnualCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
+                                    <a class="btn"><span class="oi oi-trash" title="Delete" aria-hidden="true"></span></a>
                                 </td>
-                                <td><a class="btn btn-danger text-light">Delete</a></td>
+
                             </tr>
 
                         }
+
+                                <tr class="border-bottom bg-light">
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>@total</td>
+                                    <td></td>
+                                 </tr>
+
                     }
 
                 </tbody>

@@ -12,9 +12,12 @@ namespace AMM_Project.Frontend.Models
         [Key]
         public long Id { get; set; }
         [Required]
+        [Display(Name = "Document Title")]
         public string DocumentTitle { get; set; }
         public DateTime? ExpDate { get; set; }
+        [Display(Name = "DocumentNumber")]
         public string DocumentNumber { get; set; }
+        [Display(Name = "Renewal Fees")]
         public long? ItemAnnualExpectedCost { get; set; }
         public long EmployeeId { get; set; }
         public byte? Attachment { get; set; }
