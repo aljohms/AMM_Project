@@ -15,12 +15,12 @@ namespace AMM_Project.Frontend.Pages
     public class EmployeeItemsModel : PageModel
     {
         private readonly IEmployeeItemService employeeItemService;
-        //private readonly IBranchService branchService;
+        private readonly IEmployeeService employeeService;
 
-        public EmployeeItemsModel(IEmployeeItemService employeeItemService, IBranchService branchService)
+        public EmployeeItemsModel(IEmployeeItemService employeeItemService, IEmployeeService employeeService)
         {
             this.employeeItemService = employeeItemService;
-            //this.branchService = branchService;
+            this.employeeService = employeeService;
         }
         public class ViewContent
         {
@@ -38,22 +38,22 @@ namespace AMM_Project.Frontend.Pages
         public EmployeeItem EmployeeItem { set; get; }
         [FromRoute]
         public long? Id { get; set; }
+       
         [BindProperty]
         public IFormFile Attachment { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             if (Id.HasValue)
             {
-                var getEmployeeItems = employeeItemService.GetAllAsync().Result.Where(x => x.EmployeeId == Id.Value);
-                employeeItems = getEmployeeItems.ToList();
-                var breadCrumbsItems = getEmployeeItems.FirstOrDefault();
+                employeeItems = employeeItemService.GetAllAsync().Result.Where(x => x.EmployeeId == Id.Value).ToList();
+                var breadCrumbsItems = employeeService.FindAsync(Id.Value).Result;
                 if (breadCrumbsItems != null)
                 {
-                    viewContent.BranchName = breadCrumbsItems.Employee.Branch.Name;
-                    viewContent.BusnissId = breadCrumbsItems.Employee.Branch.BusinessId;
-                    viewContent.BusinessName = breadCrumbsItems.Employee.Branch.Business.Name;
-                    viewContent.BranchId = breadCrumbsItems.Employee.Branch.Id;
-                    viewContent.EmployeeName = breadCrumbsItems.Employee.FirstName + " " + breadCrumbsItems.Employee.LastName;
+                    viewContent.BranchName = breadCrumbsItems.Branch.Name;
+                    viewContent.BusnissId = breadCrumbsItems.Branch.BusinessId;
+                    viewContent.BusinessName = breadCrumbsItems.Branch.Business.Name;
+                    viewContent.BranchId = breadCrumbsItems.Branch.Id;
+                    viewContent.EmployeeName = breadCrumbsItems.FirstName + " " + breadCrumbsItems.LastName;
                     return null;
                 }
 
