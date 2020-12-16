@@ -32,7 +32,7 @@ namespace AMM_Project.Frontend.Services
 
         public Task<EmployeeItem> FindAsync(long id)
         {
-            return _context.EmployeeItem.FirstOrDefaultAsync(x => x.Id == id);
+            return _context.EmployeeItem.Include(x => x.Employee).ThenInclude(x => x.Branch).ThenInclude(x => x.Business).FirstOrDefaultAsync(x => x.Id == id);
         }
         public Task<EmployeeItem[]> GetAllAsync( int? count = null, int? page = null)
         {
@@ -42,7 +42,7 @@ namespace AMM_Project.Frontend.Services
         {
             var actualCount = count.GetValueOrDefault(10);
 
-            return _context.EmployeeItem.Include(x => x.Employee)
+            return _context.EmployeeItem.Include(x => x.Employee).Include(x => x.Employee).ThenInclude(x => x.Branch).ThenInclude(x => x.Business)
                     .Skip(actualCount * page.GetValueOrDefault(0))
                     .Take(actualCount);
         }

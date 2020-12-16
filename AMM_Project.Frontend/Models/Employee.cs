@@ -17,7 +17,7 @@ namespace AMM_Project.Frontend.Models
         [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        [Display(Name = "Name")]
+        [Display(Name = "Phone Number")]
         public string ContactNumber { get; set; }
         [Display(Name = "Email")]
         public string Email { get; set; }
