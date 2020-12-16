@@ -46,7 +46,7 @@ namespace AMM_Project.Frontend.Pages
             if (Id.HasValue)
             {
                 employeeItems = employeeItemService.GetAllAsync().Result.Where(x => x.EmployeeId == Id.Value).ToList();
-                var breadCrumbsItems = employeeService.FindAsync(Id.Value).Result;
+                var breadCrumbsItems = await employeeService.FindAsync(Id.Value);
                 if (breadCrumbsItems != null)
                 {
                     viewContent.BranchName = breadCrumbsItems.Branch.Name;

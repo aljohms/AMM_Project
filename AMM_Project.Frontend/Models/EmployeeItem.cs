@@ -14,6 +14,8 @@ namespace AMM_Project.Frontend.Models
         [Required]
         [Display(Name = "Document Title")]
         public string DocumentTitle { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime? ExpDate { get; set; }
         [Display(Name = "DocumentNumber")]
         public string DocumentNumber { get; set; }

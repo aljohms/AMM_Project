@@ -36,7 +36,7 @@ namespace AMM_Project.Frontend.Services
 
         public Task<Employee> FindAsync(long id)
         {
-            return _context.Employee.FirstOrDefaultAsync(x => x.Id == id);
+            return _context.Employee.Include(x=>x.Branch).ThenInclude(x=>x.Business).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public IQueryable<Employee> GetAll(int? count = null, int? page = null)
