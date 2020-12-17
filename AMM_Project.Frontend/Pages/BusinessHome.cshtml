@@ -71,17 +71,24 @@
                         <div class="col">
                             <div class="card-block px-2">
                                 <h1>@branch.Name</h1>
-                                <h1>@branch.Location</h1>
+                                @if (!string.IsNullOrWhiteSpace(branch.Location))
+                                {
+                                    <h1>@branch.Location</h1>
+
+                                }
+                                else
+                                {
+                                    <h1>-</h1>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
             </a>
-
             <div class="card-footer border-0">
                 <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Edit" class="Open-Branch-Dialog btn text-primary  w-100" style="cursor:pointer;" href="#BranchModal"><span class="oi oi-pencil"></span></a>
             </div>
-        </div>
+        </div>                
             }
     </div>
     <br />
