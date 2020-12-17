@@ -11,8 +11,7 @@
         $(document).ready(function () {
             if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
                 $('#BusinessModal').modal('show');
-                var _self = $(this);
-                var id = _self.data('business').id;               
+                var id = document.getElementById('id').value;
                 if (id > 0) {
                     document.querySelector(".modal-title").innerHTML = "Edit Details";
                 } else {
@@ -25,7 +24,7 @@
             e.preventDefault();
             var _self = $(this);
             var id = _self.data('business').id;
-
+            $("#id").val(id);
             $(".validation-summary-errors").empty();
             $('.field-validation-error').empty();
 
@@ -33,7 +32,6 @@
             if (id > 0) {
                 var name = _self.data('business').name;
                 var activity = _self.data('business').activity;
-                $("#id").val(id);
                 $("#name").val(name);
                 $("#activity").val(activity);
                 document.querySelector(".modal-title").innerHTML = "Edit Details";
@@ -131,13 +129,13 @@
         <form method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="modal-title display-5" id="myModalLabel"></div>
+                    <div class="modal-title display-5" id="myModalLabel">@TempData["bid"]</div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     @*<input type="text" name="bookId" id="id" value="" />*@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="Business.Id" id="id" value="0" />
+                        <input type="hidden" asp-for="Business.Id" id="id" />
                     <div class="form-group">
                         <label asp-for="Business.Name"></label>
                         <input asp-for="Business.Name" id="name" class="form-control" />

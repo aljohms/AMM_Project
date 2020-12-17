@@ -20,6 +20,7 @@ namespace AMM_Project.Frontend.Pages
             _logger = logger;
             this.businessService = businessService;
         }
+       
         public IList<Business> businesses; 
         //Input from View
         [BindProperty]
@@ -50,6 +51,7 @@ namespace AMM_Project.Frontend.Pages
                 return Page();
             }
             //get data from the Bind Property Model
+            business.Id = Business.Id;
             business.Name = Business.Name;
             business.ActivityField = Business.ActivityField;
             business.ContactPerson = Business.ContactPerson;
