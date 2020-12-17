@@ -2,16 +2,14 @@
 @model BusinessHomeModel
 @section Scripts{ 
     <script type="text/javascript">
-
         $(document).ready(function () {
             if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
                 $('#BranchModal').modal('show');
-                var _self = $(this);
-                var id = _self.data('branch').id;
+                var id = document.getElementById('id').value;
                 if (id > 0) {
                     document.querySelector(".modal-title").innerHTML = "Edit Details";
                 } else {
-                    document.querySelector(".modal-title").innerHTML = "New Business";
+                    document.querySelector(".modal-title").innerHTML = "New Branch";
                 }
             }
         });
@@ -20,6 +18,8 @@
             e.preventDefault();
             var _self = $(this);
             var id = _self.data('branch').id;
+            $("#id").val(id);
+
             $(".validation-summary-errors").empty();
             $('.field-validation-error').empty();
            
@@ -27,7 +27,6 @@
             if (id>0) {
                 var location = _self.data('branch').location;
                 var name = _self.data('branch').name;
-                $("#id").val(id);
                 $("#name").val(name);
                 $("#location").val(location);
                 document.querySelector(".modal-title").innerHTML = "Edit Branch";
@@ -52,9 +51,9 @@
     <div class="row justify-content-center">
         <div class="card rounded-0 shadow w-100">
             <div class="col text-center">
-                <h1 class="display-4">@Model.currentBusiness</h1>
+                <h1 class="display-4">@Model.currentBusiness <a data-branch='{"id":"","name":"","location":""}' title="New Branch" class="Open-Branch-Dialog btn text-success" style="cursor:pointer;" href="#BranchModal"><span class="oi oi-plus"></span></a></h1>           
+
             </div>
-            <a data-branch='{"id":"","name":"","location":""}' title="Add this item" class="Open-Branch-Dialog btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" href="#BranchModal">Add New</a>
         </div>
     </div>
 
@@ -64,20 +63,24 @@
         @if (Model.branches != null)
             foreach (var branch in Model.branches)
             {
-        <div class="card w-49 shadow rounded-10 ">
+        <div class="card shadow rounded-10 w-49">
             <a asp-page="BranchHome" asp-route-id="@branch.Id" class="btn">
+                <div class="card-body text-center">
 
-                <div class="row no-gutters">
-                    <div class="col">
-                        <div class="card-block px-2">
-                            <h1>@branch.Name</h1>
-                            <h1>@branch.Location</h1>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-block px-2">
+                                <h1>@branch.Name</h1>
+                                <h1>@branch.Location</h1>
+                            </div>
                         </div>
                     </div>
                 </div>
             </a>
 
-            <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Add this item" class="Open-Branch-Dialog btn btn-light rounded-0 align-bottom w-100" style="cursor:pointer;" href="#BranchModal">Edit</a>
+            <div class="card-footer border-0">
+                <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Edit" class="Open-Branch-Dialog btn text-primary  w-100" style="cursor:pointer;" href="#BranchModal"><span class="oi oi-pencil"></span></a>
+            </div>
         </div>
             }
     </div>
@@ -120,17 +123,17 @@
                     </div>
                     <div class="modal-body">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="Branch.Id" id="id" value="0" />
+                        <input type="hidden" asp-for="Branch.Id" id="id" />
 
                         <h1 id="id"></h1>
                         <div class="form-group">
                             <label asp-for="Branch.Name"></label>
-                            <input asp-for="Branch.Name" id="name" value="" class="form-control" />
+                            <input asp-for="Branch.Name" id="name"  class="form-control" />
                             <span asp-validation-for="Branch.Name" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Branch.Location"></label>
-                            <input asp-for="Branch.Location" id="location" value="" class="form-control" />
+                            <input asp-for="Branch.Location" id="location"  class="form-control" />
                             <span asp-validation-for="Branch.Location" class="text-danger"></span>
                         </div>
 

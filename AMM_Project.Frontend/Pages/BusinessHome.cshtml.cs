@@ -51,6 +51,7 @@ namespace AMM_Project.Frontend.Pages
         public async Task<IActionResult> OnPostAsync()
         {
             await OnGet();
+
             //Validate From [Check for requred fields and errors then populate the corresponding message]
             if (!ModelState.IsValid)
             {
@@ -58,9 +59,14 @@ namespace AMM_Project.Frontend.Pages
             }
 
 
-            //Recipe.Id = Id.GetValueOrDefault();
-            //var branch =  new Branch();//if the recipe doesnt exist create a new one
-            var branch = await branchService.FindAsync(Branch.Id) ?? new Branch();//if the recipe doesnt exist create a new one
+            //var branch =  new Branch();//if doesnt exist create a new one
+            var branch = await branchService.FindAsync(Branch.Id) ?? new Branch();//if t doesnt exist create a new one
+            if (branches.FirstOrDefault(x => x.Name == Branch.Name) != null && branch.Id != branches.FirstOrDefault(x => x.Name == Branch.Name).Id)
+            {
+                ModelState.AddModelError("Branch.Name", "Business Already Exists");
+                await OnGet();
+                return Page();
+            }
             //get data from the Bind Property Model
             branch.Name = Branch.Name;
             branch.Location = Branch.Location;
