@@ -31,17 +31,17 @@ namespace AMM_Project.Frontend.Services
 
         public Task<Branch> FindAsync(long id)
         {
-            return _context.Branch.FirstOrDefaultAsync(x => x.Id == id);
+            return _context.Branch.Include(x=>x.Business).FirstOrDefaultAsync(x => x.Id == id);
         }
-        public Task<Branch[]> GetAllAsync(long id, int? count = null, int? page = null)
+        public Task<Branch[]> GetAllAsync( int? count = null, int? page = null)
         {
-            return GetAll(id,count, page).ToArrayAsync();
+            return GetAll(count, page).ToArrayAsync();
         }
-        public IQueryable<Branch> GetAll(long id, int? count = null, int? page = null)
+        public IQueryable<Branch> GetAll( int? count = null, int? page = null)
         {
             var actualCount = count.GetValueOrDefault(10);
 
-            return _context.Branch.Include(x=>x.Business).Where(x=>x.Business.Id ==id)
+            return _context.Branch.Include(x=>x.Business)
                     .Skip(actualCount * page.GetValueOrDefault(0))
                     .Take(actualCount);
         }

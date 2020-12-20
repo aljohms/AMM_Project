@@ -42,8 +42,8 @@ namespace AMM_Project.Frontend.Pages
         {
             if (Id.HasValue)
             {
-                branchItems = await branchItemService.GetAllAsync(Id.Value);
-                var _branchService = branchService.Find(Id.Value);
+                branchItems =  branchItemService.GetAllAsync().Result.Where(x => x.BranchId == Id.Value).ToList();
+                var _branchService = await branchService.FindAsync(Id.Value);
                 if (_branchService != null)
                 {
                     viewContent.BranchName = _branchService.Name;
@@ -70,6 +70,12 @@ namespace AMM_Project.Frontend.Pages
             //Recipe.Id = Id.GetValueOrDefault();
             //var branch =  new Branch();//if the recipe doesnt exist create a new one
             var branchItem = await branchItemService.FindAsync(BranchItem.Id) ?? new BranchItem();//if the recipe doesnt exist create a new one
+            if (branchItems.FirstOrDefault(x => x.DocumentTitle == BranchItem.DocumentTitle) != null && branchItem.Id != branchItems.FirstOrDefault(x => x.DocumentTitle == BranchItem.DocumentTitle).Id)
+            {
+                ModelState.AddModelError("BranchItem.DocumentTitle", "Document Already Exists");
+                await OnGetAsync();
+                return Page();
+            }
             branchItem.DocumentTitle = BranchItem.DocumentTitle;
             branchItem.DocumentNumber = BranchItem.DocumentNumber;
             branchItem.ExpDate = BranchItem.ExpDate;

@@ -15,10 +15,16 @@ namespace AMM_Project.Frontend.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IBusinessService businessService;
-        public IndexModel(ILogger<IndexModel> logger, IBusinessService businessService)
+        private readonly IBranchItemService branchItemService;
+        private readonly IEmployeeItemService employeeItemService;
+
+
+        public IndexModel(ILogger<IndexModel> logger, IBusinessService businessService, IBranchItemService branchItemService, IEmployeeItemService employeeItemService)
         {
             _logger = logger;
             this.businessService = businessService;
+            this.branchItemService = branchItemService;
+            this.employeeItemService = employeeItemService;
         }
        
         public IList<Business> businesses; 
@@ -27,15 +33,56 @@ namespace AMM_Project.Frontend.Pages
         public Business Business { set; get; }
         [BindProperty]
         public IFormFile Image { get; set; }
+
+        public class Upcoming
+        {
+            public string Business { get; set; }
+            public string Branch { get; set; }
+            public string Details { get; set; }
+            public DateTime date { get; set; }
+        }
+        public IList<Upcoming> upcomings = new List<Upcoming>();
         public async Task OnGetAsync()
         {
            await GetBusinessList();
+            var employeeItems = await employeeItemService.GetAllAsync();
+            var branchItems = await branchItemService.GetAllAsync();
+            if (branchItems != null)
+            {
+                foreach (var item in branchItems)
+                {
+                    if (item.ExpDate.HasValue && item.ExpDate.Value.AddDays(-30).Date <= DateTime.Today)
+                    {
+                        Upcoming upcoming = new Upcoming();
+                        upcoming.date = item.ExpDate.Value;
+                        upcoming.Business = item.Branch.Business.Name;
+                        upcoming.Branch = item.Branch.Name;
+                        upcoming.Details = item.DocumentTitle;
+                        upcomings.Add(upcoming);
+                    }
+                }
+            }
+            if (employeeItems != null)
+            {
+                foreach (var item in employeeItems)
+                {
+                    if (item.ExpDate.HasValue && item.ExpDate.Value.AddDays(-30).Date <= DateTime.Today)
+                    {
+                        Upcoming upcoming = new Upcoming();
+                        upcoming.date = item.ExpDate.Value;
+                        upcoming.Business = item.Employee.Branch.Business.Name;
+                        upcoming.Branch = item.Employee.Branch.Name;
+                        upcoming.Details = item.DocumentTitle + " " + item.Employee.FirstName + " " + item.Employee.LastName;
+                        upcomings.Add(upcoming);
+                    }
+                }
+            }
         }
         public async Task<IActionResult> OnPostAsync()
         {
             await GetBusinessList();
 
-
+           
 
             //Validate Form Check for required fields and errors then populate the corresponding message
             if (!ModelState.IsValid)

@@ -18,7 +18,7 @@ namespace AMM_Project.Frontend.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         [Display(Name = "Expiry Date")]
-        public DateTime ExpDate { get; set; }
+        public DateTime? ExpDate { get; set; }
         [Display(Name = "Document Number")]
         public string DocumentNumber { get; set; }
         [Display(Name = "Renewal Fees")]

@@ -59,36 +59,38 @@
 
     <br />
     <!--Businesses List-->
-    <div class="row justify-content-between ">
+    <div class="row justify-content-around ">
         @if (Model.branches != null)
             foreach (var branch in Model.branches)
             {
-        <div class="card shadow rounded-10 w-49">
-            <a asp-page="BranchHome" asp-route-id="@branch.Id" class="btn">
-                <div class="card-body text-center">
+                <div class="card col-lg-4 shadow  rounded-10">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            @branch.Name</h5>
+                        <p class="card-text">
+                            @if (!string.IsNullOrWhiteSpace(branch.Location))
+                            {
+                                @branch.Location
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="card-block px-2">
-                                <h1>@branch.Name</h1>
-                                @if (!string.IsNullOrWhiteSpace(branch.Location))
-                                {
-                                    <h1>@branch.Location</h1>
+                            }
+                            else
+                            {
+                                <b>-</b>
+                            }
+                            <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Edit" class="Open-Branch-Dialog btn  w-100" style="cursor:pointer;" href="#BranchModal"><span class="oi oi-pencil"></span></a>
+                        </p>
 
-                                }
-                                else
-                                {
-                                    <h1>-</h1>
-                                }
-                            </div>
-                        </div>
+                        <a asp-page="Employees" asp-route-id="@branch.Id" class="btn btn-info  shadow rounded-10 w-49">
+                            Employees
+                        </a>
+                        <a asp-page="BranchItems" asp-route-id="@branch.Id" class="btn shadow rounded-10 btn-secondary w-49">
+                            Branch
+                        </a>
                     </div>
                 </div>
-            </a>
-            <div class="card-footer border-0">
-                <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Edit" class="Open-Branch-Dialog btn text-primary  w-100" style="cursor:pointer;" href="#BranchModal"><span class="oi oi-pencil"></span></a>
-            </div>
-        </div>                
+           
+                   
+
             }
     </div>
     <br />
@@ -98,21 +100,50 @@
         <div class="card rounded-top shadow w-100">
             <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
             <div class="card-body">
-                <table class="table  table-borderless">
-                    <tbody>
-                        <tr class="border-bottom">
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                        <tr class="border-bottom">
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                        </tr>
-                    </tbody>
+                <table class="table table-borderless">
+
+
+                    @if (Model.upcomings != null && Model.upcomings.Count() > 0)
+                    {
+                        <thead>
+                            <tr class="border-bottom font-weight-bold">
+                                <td>Branch</td>
+                                <td>Document</td>
+                                <td>Expiry Date</td>
+                            </tr>
+                        </thead>
+                        foreach (var upcoming in Model.upcomings)
+                        {
+                            string color = "";
+                            @if (upcoming.date <= DateTime.Today.Date)
+                            {
+                                color = "table-danger";
+                            }
+                            else
+                            {
+                                color = "table-warning";
+                            }
+                            <tbody>
+                                <tr class="border-bottom @color">
+                                    <td>@upcoming.Branch</td>
+                                    <td>@upcoming.Details</td>
+                                    <td>@upcoming.date.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            </tbody>
+
+
+                        }
+
+                    }
+                    else
+                    {
+                        <tbody>
+                            <tr class="text-center">
+                                <td>No Data!</td>
+                            </tr>
+                        </tbody>
+                    }
+
                 </table>
             </div>
         </div>

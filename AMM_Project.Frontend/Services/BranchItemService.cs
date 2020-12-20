@@ -34,15 +34,15 @@ namespace AMM_Project.Frontend.Services
         {
             return _context.BranchItem.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public Task<BranchItem[]> GetAllAsync(long id, int? count = null, int? page = null)
+        public Task<BranchItem[]> GetAllAsync(int? count = null, int? page = null)
         {
-            return GetAll(id, count, page).ToArrayAsync();
+            return GetAll(count, page).ToArrayAsync();
         }
-        public IQueryable<BranchItem> GetAll(long id, int? count = null, int? page = null)
+        public IQueryable<BranchItem> GetAll(int? count = null, int? page = null)
         {
             var actualCount = count.GetValueOrDefault(10);
 
-            return _context.BranchItem.Include(x => x.Branch).ThenInclude(x=>x.Business).Where(x => x.Branch.Id == id)
+            return _context.BranchItem.Include(x => x.Branch).ThenInclude(x=>x.Business)
                     .Skip(actualCount * page.GetValueOrDefault(0))
                     .Take(actualCount);
         }

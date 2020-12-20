@@ -13,7 +13,7 @@
                 $('#BusinessModal').modal('show');
                 var id = document.getElementById('id').value;
                 if (id > 0) {
-                    document.querySelector(".modal-title").innerHTML = "Edit Details";
+                    document.querySelector(".modal-title").innerHTML = "Edit Business";
                 } else {
                     document.querySelector(".modal-title").innerHTML = "New Business";
                 }
@@ -34,7 +34,7 @@
                 var activity = _self.data('business').activity;
                 $("#name").val(name);
                 $("#activity").val(activity);
-                document.querySelector(".modal-title").innerHTML = "Edit Details";
+                document.querySelector(".modal-title").innerHTML = "Edit Business";
             } else {
                 $("#id").val(0);
                 $("#name").val('');
@@ -102,21 +102,52 @@
     <div class="card rounded-top shadow w-100">
         <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
         <div class="card-body">
-            <table class="table  table-borderless">
-                <tbody>
-                    <tr class="border-bottom">
-                        <td>Mark</td>
-                        <td>Otto</td>
-                    </tr>
-                    <tr class="border-bottom">
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                    </tr>
-                    <tr class="border-bottom">
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                    </tr>
-                </tbody>
+            <table class="table table-borderless">
+
+
+                @if (Model.upcomings != null && Model.upcomings.Count() > 0)
+                {
+                    <thead>
+                        <tr class="border-bottom font-weight-bold">
+                            <td>Business</td>
+                            <td>Branch</td>
+                            <td>Document</td>
+                            <td>Expiry Date</td>
+                        </tr>
+                    </thead>
+                    foreach (var upcoming in Model.upcomings)
+                    {
+                        string color = "";
+                        @if (upcoming.date <= DateTime.Today.Date)
+                        {
+                            color = "table-danger";
+                        }
+                        else
+                        {
+                            color = "table-warning";
+                        }
+                            <tbody>
+                                <tr class="border-bottom @color">
+                                    <td>@upcoming.Business</td>
+                                    <td>@upcoming.Branch</td>
+                                    <td>@upcoming.Details</td>
+                                    <td>@upcoming.date.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            </tbody>
+
+
+                    }
+
+                }
+                else
+                {
+                    <tbody>
+                        <tr class="text-center">
+                            <td>No Data!</td>
+                        </tr>
+                    </tbody>
+                }
+
             </table>
         </div>
     </div>
@@ -129,11 +160,10 @@
         <form method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="modal-title display-5" id="myModalLabel">@TempData["bid"]</div>
+                    <div class="modal-title display-5" id="myModalLabel"></div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    @*<input type="text" name="bookId" id="id" value="" />*@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="Business.Id" id="id" />
                     <div class="form-group">
@@ -146,7 +176,6 @@
                         <input asp-for="Business.ActivityField" id="activity" class="form-control" />
                         <span asp-validation-for="Business.ActivityField" class="text-danger"></span>
                     </div>
-
                     <div class="form-group border-0">
                         <div class="custom-file mb-3">
                             <input type="file" asp-for="Image" class="custom-file-input" id="customFile">
@@ -155,12 +184,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-
                     <div class="form-group pt-2  ">
-                        <button type="submit" class="btn btn-primary rounded-10 shadow ">Save changes</button>
-                       
+                        <button type="submit" class="btn btn-primary rounded-10 shadow ">Save changes</button>                       
                         <button type="button" class="btn btn-danger  rounded-10 shadow" data-dismiss="modal">Close</button>
-
                     </div>
                 </div>
             </div><!-- /.modal-content -->

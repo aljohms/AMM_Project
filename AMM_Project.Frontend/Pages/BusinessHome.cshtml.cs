@@ -14,13 +14,16 @@ namespace AMM_Project.Frontend.Pages
     {
         private readonly IBranchService branchService;
         private readonly IBusinessService businessService;
+        private readonly IBranchItemService branchItemService;
+        private readonly IEmployeeItemService employeeItemService;
 
 
-
-        public BusinessHomeModel(IBranchService branchService, IBusinessService businessService)
+        public BusinessHomeModel(IBranchService branchService, IBusinessService businessService, IBranchItemService branchItemService, IEmployeeItemService employeeItemService)
         {
             this.branchService = branchService;
             this.businessService = businessService;
+            this.branchItemService = branchItemService;
+            this.employeeItemService = employeeItemService;
         }
         public IList<Branch> branches;
        
@@ -29,13 +32,49 @@ namespace AMM_Project.Frontend.Pages
         [FromRoute]
         public long? Id { set; get; }
         public string currentBusiness { set; get; }
-
+        public class Upcoming
+        {
+            public string Branch { get; set; }
+            public string Details { get; set; }
+            public DateTime date { get; set; }
+        }
+        public IList<Upcoming> upcomings = new List<Upcoming>();
         public async Task<IActionResult> OnGet()
         {
             if (Id.HasValue)
             {
-                branches = await branchService.GetAllAsync(Id.Value);
-                var getBusinessName = businessService.Find(Id.Value);
+                branches =  branchService.GetAllAsync().Result.Where(x=>x.BusinessId == Id.Value).ToList();
+                var getBusinessName = await businessService.FindAsync(Id.Value);
+                var employeeItems = await employeeItemService.GetAllAsync();
+                var branchItems = await branchItemService.GetAllAsync();
+                if (branchItems != null)
+                {
+                    foreach (var item in branchItems.Where(x=>x.Branch.BusinessId==Id.Value))
+                    {
+                        if (item.ExpDate.HasValue && item.ExpDate.Value.AddDays(-30).Date <= DateTime.Today)
+                        {
+                            Upcoming upcoming = new Upcoming();
+                            upcoming.date = item.ExpDate.Value;
+                            upcoming.Branch = item.Branch.Name;
+                            upcoming.Details = item.DocumentTitle;
+                            upcomings.Add(upcoming);
+                        }
+                    }
+                }
+                if (employeeItems != null)
+                {
+                    foreach (var item in employeeItems.Where(x=>x.Employee.Branch.BusinessId==Id.Value))
+                    {
+                        if (item.ExpDate.HasValue && item.ExpDate.Value.AddDays(-30).Date <= DateTime.Today)
+                        {
+                            Upcoming upcoming = new Upcoming();
+                            upcoming.date = item.ExpDate.Value;
+                            upcoming.Branch = item.Employee.Branch.Name;
+                            upcoming.Details = item.DocumentTitle + " " + item.Employee.FirstName + " " + item.Employee.LastName;
+                            upcomings.Add(upcoming);
+                        }
+                    }
+                }
                 if (getBusinessName != null && branches != null)
                 {
                     currentBusiness = getBusinessName.Name;

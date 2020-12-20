@@ -8,9 +8,9 @@ namespace AMM_Project.Frontend.Services
     {
         Branch Find(long id);
         Task<Branch> FindAsync(long id);
-        IQueryable<Branch> GetAll(long id, int? count = null, int? page = null);
+        IQueryable<Branch> GetAll( int? count = null, int? page = null);
 
-        Task<Branch[]> GetAllAsync(long id, int? count = null, int? page = null);
+        Task<Branch[]> GetAllAsync( int? count = null, int? page = null);
         Task SaveAsync(Branch branch);
 
     }

@@ -38,8 +38,8 @@ namespace AMM_Project.Frontend.Pages
             {
                 if (Id.HasValue)
                 {
-                    branchItems = await branchItemService.GetAllAsync(Id.Value);
-                    var _branchService = branchService.Find(Id.Value);
+                    branchItems =  branchItemService.GetAllAsync().Result.Where(x=>x.BranchId==Id.Value).ToList();
+                    var _branchService = await branchService.FindAsync(Id.Value);
                     if (branchItems != null && _branchService != null)
                     {
                         viewContent.BranchName = _branchService.Name;

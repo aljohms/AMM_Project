@@ -14,10 +14,11 @@ namespace AMM_Project.Frontend.Models
         [Required]
         [Display(Name = "Document Title")]
         public string DocumentTitle { get; set; }
+        [Display(Name = "Expiry Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? ExpDate { get; set; }
-        [Display(Name = "DocumentNumber")]
+        [Display(Name = "Document Number")]
         public string DocumentNumber { get; set; }
         [Display(Name = "Renewal Fees")]
         public long? ItemAnnualExpectedCost { get; set; }

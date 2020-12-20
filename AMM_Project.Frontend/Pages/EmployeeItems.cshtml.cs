@@ -74,6 +74,12 @@ namespace AMM_Project.Frontend.Pages
             //Recipe.Id = Id.GetValueOrDefault();
             //var branch =  new Branch();//if the recipe doesnt exist create a new one
             var employeeItem = await employeeItemService.FindAsync(EmployeeItem.Id) ?? new EmployeeItem();//if the recipe doesnt exist create a new one
+            if (employeeItems.FirstOrDefault(x => x.DocumentTitle == EmployeeItem.DocumentTitle) != null && employeeItem.Id != employeeItems.FirstOrDefault(x => x.DocumentTitle == EmployeeItem.DocumentTitle).Id)
+            {
+                ModelState.AddModelError("EmployeeItem.DocumentTitle", "Document  Already Exists");
+                await OnGetAsync();
+                return Page();
+            }
             employeeItem.DocumentTitle = EmployeeItem.DocumentTitle;
             employeeItem.DocumentNumber = EmployeeItem.DocumentNumber;
             employeeItem.ExpDate = EmployeeItem.ExpDate;

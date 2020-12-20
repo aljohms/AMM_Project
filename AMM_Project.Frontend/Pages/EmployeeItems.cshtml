@@ -11,12 +11,11 @@
         $(document).ready(function () {
             if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
                 $('#ItemModal').modal('show');
-                var _self = $(this);
-                var id = _self.data('Item').id;
+                var id = document.getElementById('id').value;
                 if (id > 0) {
-                    document.querySelector(".modal-title").innerHTML = "Edit Item";
+                    document.querySelector(".modal-title").innerHTML = "Edit Document";
                 } else {
-                    document.querySelector(".modal-title").innerHTML = "New Item";
+                    document.querySelector(".modal-title").innerHTML = "New Document";
                 }
             }
         });
@@ -26,6 +25,8 @@
             var _self = $(this);
 
             var id = _self.data('item').id;
+            $("#id").val(id);
+
 
             $(".validation-summary-errors").empty();
             $('.field-validation-error').empty();
@@ -35,20 +36,19 @@
                 var num = _self.data('item').num;
                 var date = _self.data('item').date;
                 var cost = _self.data('item').cost;
-
-                $("#id").val(id);
+               
                 $("#title").val(title);
                 $("#num").val(num);
                 $("#date").val(date);
                 $("#cost").val(cost);
-                document.querySelector(".modal-title").innerHTML = "Edit Item";
+                document.querySelector(".modal-title").innerHTML = "Edit Document";
             } else {
                 $("#id").val(0);
                 $("#num").val('');
                 $("#title").val('');
                 $("#date").val('');
                 $("#cost").val('');
-                document.querySelector(".modal-title").innerHTML = "New Item";
+                document.querySelector(".modal-title").innerHTML = "New Document";
             }
             $(_self.attr('href')).modal('show');
         });
@@ -67,7 +67,7 @@
 <div class="row justify-content-center">
     <div class="card rounded-top shadow w-100">
         <div class="card-header border-bottom-0 display-5 text-center">
-            Branch Documents
+            @Model.viewContent.EmployeeName
         </div>
         <div class="card-body">
             <a data-item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add this item" class="Open-Item-Dialog btn text-success rounded-10 align-bottom " style="cursor:pointer;" href="#ItemModal"><span class="oi oi-plus" title="Add New Document" aria-hidden="true"></span></a>
@@ -165,7 +165,7 @@
                 <div class="modal-body">
                     @*<input type="text" name="bookId" id="id" value="" />*@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="EmployeeItem.Id" id="id" value="0" />
+                    <input type="hidden" asp-for="EmployeeItem.Id" id="id" />
                     <div class="form-group">
                         <label asp-for="EmployeeItem.DocumentTitle"></label>
                         <input asp-for="EmployeeItem.DocumentTitle" id="title" class="form-control" />
