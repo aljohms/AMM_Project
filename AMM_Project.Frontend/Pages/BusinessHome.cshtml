@@ -51,7 +51,7 @@
     <div class="row justify-content-center">
         <div class="card rounded-0 shadow w-100">
             <div class="col text-center">
-                <h1 class="display-4">@Model.currentBusiness <a data-branch='{"id":"","name":"","location":""}' title="New Branch" class="Open-Branch-Dialog btn text-success" style="cursor:pointer;" href="#BranchModal"><span class="oi oi-plus"></span></a></h1>           
+                <h1 class="display-4">@Model.currentBusiness <a data-branch='{"id":"","name":"","location":""}' title="New Branch" class="Open-Branch-Dialog btn btn-light text-success" style="cursor:pointer;" href="#BranchModal">Add&nbsp;<span class="oi oi-plus"></span></a></h1>           
 
             </div>
         </div>
@@ -80,17 +80,14 @@
                             <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Edit" class="Open-Branch-Dialog btn  w-100" style="cursor:pointer;" href="#BranchModal"><span class="oi oi-pencil"></span></a>
                         </p>
 
-                        <a asp-page="Employees" asp-route-id="@branch.Id" class="btn btn-info  shadow rounded-10 w-49">
-                            Employees
+                        <a asp-page="Employees" asp-route-id="@branch.Id" class="btn btn-dark  shadow rounded-10 w-49">
+                            Employees&nbsp;<span class="oi oi-people"></span>
                         </a>
-                        <a asp-page="BranchItems" asp-route-id="@branch.Id" class="btn shadow rounded-10 btn-secondary w-49">
-                            Branch
+                        <a asp-page="BranchItems" asp-route-id="@branch.Id" class="btn shadow rounded-10 btn-dark w-49">
+                            Branch&nbsp;<span class="oi oi-home"></span>
                         </a>
                     </div>
-                </div>
-           
-                   
-
+                </div>                              
             }
     </div>
     <br />
@@ -98,7 +95,7 @@
     <!--Section 2-->
     <div class="row justify-content-center">
         <div class="card rounded-top shadow w-100">
-            <div class="card-header border-bottom-0 display-5 text-center"> Upcoming Dates </div>
+            <div class="card-header border-bottom-0 display-5 text-center"> Important Dates </div>
             <div class="card-body">
                 <table class="table table-borderless">
 
@@ -139,7 +136,7 @@
                     {
                         <tbody>
                             <tr class="text-center">
-                                <td>No Data!</td>
+                                <td>No Important Dates!</td>
                             </tr>
                         </tbody>
                     }

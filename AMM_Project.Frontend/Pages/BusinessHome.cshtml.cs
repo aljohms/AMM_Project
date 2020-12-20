@@ -102,7 +102,7 @@ namespace AMM_Project.Frontend.Pages
             var branch = await branchService.FindAsync(Branch.Id) ?? new Branch();//if t doesnt exist create a new one
             if (branches.FirstOrDefault(x => x.Name == Branch.Name) != null && branch.Id != branches.FirstOrDefault(x => x.Name == Branch.Name).Id)
             {
-                ModelState.AddModelError("Branch.Name", "Business Already Exists");
+                ModelState.AddModelError("Branch.Name", "Branch Already Exists");
                 await OnGet();
                 return Page();
             }
