@@ -14,8 +14,12 @@
                 var id = document.getElementById('id').value;
                 if (id > 0) {
                     document.querySelector(".modal-title").innerHTML = "Edit Business";
+                    document.getElementById("delete").style.visibility = "visible";
+
                 } else {
                     document.querySelector(".modal-title").innerHTML = "New Business";
+                    document.getElementById("delete").style.visibility = "hidden";
+
                 }
             }
         });
@@ -35,11 +39,15 @@
                 $("#name").val(name);
                 $("#activity").val(activity);
                 document.querySelector(".modal-title").innerHTML = "Edit Business";
+                document.getElementById("delete").style.visibility = "visible";
+
             } else {
                 $("#id").val(0);
                 $("#name").val('');
                 $("#activity").val('');
                 document.querySelector(".modal-title").innerHTML = "New Business";
+                document.getElementById("delete").style.visibility = "hidden";
+
             }
 
             $(_self.attr('href')).modal('show');
@@ -185,8 +193,10 @@
                 </div>
                 <div class="modal-footer">
                     <div class="form-group pt-2  ">
-                        <button type="submit" class="btn btn-primary rounded-10 shadow ">Save changes</button>                       
-                        <button type="button" class="btn btn-danger  rounded-10 shadow" data-dismiss="modal">Close</button>
+                        <button id="delete"   onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete</button> <!--OnPostDelete is consumed by asp-page-handler "Its Case sensitive" -->
+                        <button type="submit" class="btn btn-primary rounded-10 shadow ">Save changes</button>
+
+
                     </div>
                 </div>
             </div><!-- /.modal-content -->

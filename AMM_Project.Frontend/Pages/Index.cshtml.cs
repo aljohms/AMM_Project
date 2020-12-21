@@ -127,5 +127,10 @@ namespace AMM_Project.Frontend.Pages
             businesses = await businessService.GetAllAsync();
 
         }
+        public async Task<IActionResult> OnPostDelete()
+        {
+            await businessService.DeleteAsync(Business.Id);
+            return RedirectToPage("/Index");
+        }
     }
 }

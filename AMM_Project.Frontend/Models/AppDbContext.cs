@@ -18,10 +18,13 @@ namespace AMM_Project.Frontend.Models
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-            this.EnsureSeedData();
+           // this.EnsureSeedData();
 
         }
-
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
 
         public virtual DbSet<Business> Business { get; set; }
 
