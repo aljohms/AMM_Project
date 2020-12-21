@@ -1,23 +1,17 @@
 ﻿
-@if (!User.Identity.IsAuthenticated)
+@if (User.Identity.IsAuthenticated)
 {
-    <a class=" float-right btn btn-success btn-outline-light" asp-page="Account/Login">Login</a>
-}
-else
-{
-<div class="dropdown justify-content-center float-right">
-    <button class="btn btn-success btn-outline-light dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Welcom <strong> @User.Identity.Name</strong>
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" asp-page="/Account/Profile"> Profile</a>
-        <a class="dropdown-item" asp-page="/Account/Users"> Users</a>
-        <div class="dropdown-divider"></div>
-        <form method="post" asp-page="/Account/Login" asp-page-handler="Logout">
-            <button type="submit" class="dropdown-item btn">Logout</button>
-        </form>
-        <a class="dropdown-item" asp-page="/Account/Login" asp-page-handler="Logout"></a>
+    <div class="dropdown justify-content-center float-right">
+        <button class="btn btn-dark  dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcom <strong> @User.Identity.Name</strong>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" asp-page="/Account/Users"> Users</a>
+            <div class="dropdown-divider"></div>
+            <form method="post" asp-page="/Account/Login" asp-page-handler="Logout">
+                <button type="submit" class="dropdown-item btn">Logout</button>
+            </form>
+            <a class="dropdown-item" asp-page="/Account/Login" asp-page-handler="Logout"></a>
+        </div>
     </div>
-</div>
-
 }

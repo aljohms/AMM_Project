@@ -1,0 +1,91 @@
+﻿@page
+@model UsersModel
+
+@section scripts {
+    <script type="text/javascript">     
+        $(document).ready(function () {
+            if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
+                $('#PasswordDialog').modal('show');
+            }
+        });
+
+        $(document).on("click", ".open-Dialog", function (e) {
+            e.preventDefault();
+            var _self = $(this);
+            var id = _self.data('user').id;
+            $("#id").val(id);
+
+            document.querySelector(".modal-title").innerHTML = "Password Reset";
+            $(_self.attr('href')).modal('show');
+        });
+    </script>
+}
+@if (TempData["StatusMessage"] != null)
+{
+    <div class="alert alert-info">@TempData["StatusMessage"]</div>
+}
+@if (Model.users != null)
+{
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.users)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>
+                    <a data-user='{"id":"@user.Id","username":"@user.UserName"}' title="Add this item" class="open-Dialog btn btn-primary" href="#PasswordDialog">Reset</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="PasswordDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        @*<input type="text" name="bookId" id="id" value="" />*@
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Input.UserId" id="id" />
+                        <div class="form-group">
+                            <label asp-for="Input.NewPassword"></label>
+                            <input asp-for="Input.NewPassword" class="form-control" />
+                            <span asp-validation-for="Input.NewPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.ConfirmPassword"></label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+                </form>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+}
+else
+{
+    <div class="alert alert-danger"><h1 class="display-2">No Data!</h1></div>
+}
