@@ -121,6 +121,11 @@ namespace AMM_Project.Frontend.Pages
             // Don't display the untrusted file name in the UI. HTML-encode the value.
             return File(requestFile.Attachment, MediaTypeNames.Application.Octet, WebUtility.HtmlEncode(requestFile.FileName));
         }
+        public async Task<IActionResult> OnPostDelete()
+        {
+           await employeeItemService.DeleteAsync(EmployeeItem.Id);
+                return RedirectToPage();
+        }
     }
 }
 

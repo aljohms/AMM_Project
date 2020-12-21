@@ -77,5 +77,10 @@ namespace AMM_Project.Frontend.Pages
             await employeeService.SaveAsync(employee);
             return RedirectToPage();
         }
+        public async Task<IActionResult> OnPostDelete()
+        {
+            await employeeService.DeleteAsync(Employee.Id);
+            return RedirectToPage();
+        }
     }
 }

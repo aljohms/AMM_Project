@@ -130,7 +130,7 @@ namespace AMM_Project.Frontend.Pages
         public async Task<IActionResult> OnPostDelete()
         {
             await businessService.DeleteAsync(Business.Id);
-            return RedirectToPage("/Index");
+            return RedirectToPage();
         }
     }
 }

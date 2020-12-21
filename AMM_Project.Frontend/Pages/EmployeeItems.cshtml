@@ -14,8 +14,12 @@
                 var id = document.getElementById('id').value;
                 if (id > 0) {
                     document.querySelector(".modal-title").innerHTML = "Edit Document";
+                    document.getElementById("delete").style.visibility = "visible";
+
                 } else {
                     document.querySelector(".modal-title").innerHTML = "New Document";
+                    document.getElementById("delete").style.visibility = "hidden";
+
                 }
             }
         });
@@ -42,6 +46,8 @@
                 $("#date").val(date);
                 $("#cost").val(cost);
                 document.querySelector(".modal-title").innerHTML = "Edit Document";
+                document.getElementById("delete").style.visibility = "visible";
+
             } else {
                 $("#id").val(0);
                 $("#num").val('');
@@ -49,6 +55,8 @@
                 $("#date").val('');
                 $("#cost").val('');
                 document.querySelector(".modal-title").innerHTML = "New Document";
+                document.getElementById("delete").style.visibility = "hidden";
+
             }
             $(_self.attr('href')).modal('show');
         });
@@ -130,7 +138,6 @@
                                 <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"","cost":"@Item.ItemAnnualExpectedCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
 
                             }
-                            <a class="btn"><span class="oi oi-trash" title="Delete" aria-hidden="true"></span></a>
                         </td>
 
                     </tr>
@@ -194,9 +201,9 @@
                     </div>
                     <div class="modal-footer">
 
-                        <div class="form-group pt-2  ">
-                            <button type="submit" class="btn btn-primary rounded-10 shadow ">Save changes</button>
-                            <button type="button" class="btn btn-danger  rounded-10 shadow" data-dismiss="modal">Close</button>
+                        <div class="form-group pt-2">
+                            <button id="delete" onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete&nbsp;<span class="oi oi-trash"></span></button> <!--OnPostDelete is consumed by asp-page-handler "Its Case sensitive" -->
+                            <button type="submit" class="btn btn-primary rounded-10 shadow ">Save &nbsp;<span class="oi oi-check"></span></button>
                         </div>
                     </div>
                 </div>

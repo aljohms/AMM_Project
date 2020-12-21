@@ -15,5 +15,7 @@ namespace AMM_Project.Frontend.Services
 
         Task<BranchItem[]> GetAllAsync(int? count = null, int? page = null);
         Task SaveAsync(BranchItem branchItem);
+        Task DeleteAsync(long id);
+
     }
 }

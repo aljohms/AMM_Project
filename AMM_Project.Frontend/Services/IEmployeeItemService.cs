@@ -15,5 +15,7 @@ namespace AMM_Project.Frontend.Services
 
         Task<EmployeeItem[]> GetAllAsync( int? count = null, int? page = null);
         Task SaveAsync(EmployeeItem employeeItem);
+        Task DeleteAsync(long id);
+
     }
 }

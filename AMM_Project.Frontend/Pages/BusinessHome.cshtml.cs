@@ -116,5 +116,10 @@ namespace AMM_Project.Frontend.Pages
             await branchService.SaveAsync(branch);
             return RedirectToPage();
         }
+        public async Task<IActionResult> OnPostDelete()
+        {
+            await branchService.DeleteAsync(Branch.Id);
+            return RedirectToPage("/Index");
+        }
     }
 }

@@ -24,7 +24,11 @@ namespace AMM_Project.Frontend.Services
         {
             _context = context;
         }
-
+        public async Task DeleteAsync(long id)
+        {
+            _context.EmployeeItem.Remove(new EmployeeItem { Id = id });
+            await _context.SaveChangesAsync();
+        }
         public EmployeeItem Find(long id)
         {
             return _context.EmployeeItem.Include(x=>x.Employee).ThenInclude(x=>x.Branch).ThenInclude(x=>x.Business).FirstOrDefault(x => x.Id == id);
