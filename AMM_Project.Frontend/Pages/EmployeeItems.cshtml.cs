@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -38,13 +38,19 @@ namespace AMM_Project.Frontend.Pages
         public EmployeeItem EmployeeItem { set; get; }
         [FromRoute]
         public long? Id { get; set; }
-       
+        List<string> titlesList = new List<string>();
+        public string[] titles = new string[] { };
         [BindProperty]
         public IFormFile Attachment { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             if (Id.HasValue)
             {
+                titlesList = employeeItemService.GetAllAsync().Result.Select(x => x.DocumentTitle).Distinct().ToList();
+                titlesList.Add("اقامة");
+                titlesList.Add("جواز سفر");
+                titlesList.Add("عقد العمل");
+                titles = titlesList.Distinct().ToArray();
                 employeeItems = employeeItemService.GetAllAsync().Result.Where(x => x.EmployeeId == Id.Value).ToList();
                 var breadCrumbsItems = await employeeService.FindAsync(Id.Value);
                 if (breadCrumbsItems != null)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -31,6 +31,8 @@ namespace AMM_Project.Frontend.Pages
             public string BusinessName { get; set; }
         }
         public ViewContent viewContent = new ViewContent();
+        List<string> titlesList = new List<string>();
+        public string[] titles = new string[] { };
         public IList<BranchItem> branchItems;
         [BindProperty]
         public BranchItem BranchItem { set; get; }
@@ -42,6 +44,11 @@ namespace AMM_Project.Frontend.Pages
         {
             if (Id.HasValue)
             {
+                titlesList = branchItemService.GetAllAsync().Result.Select(x => x.DocumentTitle).Distinct().ToList();
+                titlesList.Add("سجل تجاري");
+                titlesList.Add("رخصة");
+                titlesList.Add("عقد النفايات");
+                titles = titlesList.Distinct().ToArray();
                 branchItems =  branchItemService.GetAllAsync().Result.Where(x => x.BranchId == Id.Value).ToList();
                 var _branchService = await branchService.FindAsync(Id.Value);
                 if (_branchService != null)
@@ -56,7 +63,6 @@ namespace AMM_Project.Frontend.Pages
                 RedirectToPage("/Index");
             }
              return RedirectToPage("/Index");
-
         }
         public async Task<IActionResult> OnPostAsync()
         {
