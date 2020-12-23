@@ -71,7 +71,7 @@ namespace AMM_Project.Frontend.Pages
             employee.ContactNumber = Employee.ContactNumber;
             employee.Email = Employee.Email;
             employee.Position = Employee.Position;
-            employee.Position = Employee.Position;
+            employee.IsSaudiNational = Employee.IsSaudiNational;
             employee.BranchId = Id.Value;
 
 
