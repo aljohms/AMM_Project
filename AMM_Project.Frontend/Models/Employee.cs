@@ -19,6 +19,12 @@ namespace AMM_Project.Frontend.Models
         public string LastName { get; set; }
         [Display(Name = "Phone Number")]
         public string ContactNumber { get; set; }
+        [Required]
+        [Display(Name = "Postion")]
+        public string Position { get; set; }
+        [Required]
+        [Display(Name = "is Saudi?")]
+        public bool IsSaudiNational { get; set; }
         [Display(Name = "Email")]
         public string Email { get; set; }
         public long BranchId { get; set; }

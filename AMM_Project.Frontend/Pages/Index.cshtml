@@ -57,7 +57,7 @@
 @{
     ViewData["Title"] = "Home";
 }
-
+<!--Lay-->
 <!--Section 1-->
 <div class="row justify-content-center">
     <div class="card rounded-10 shadow w-100">
@@ -74,7 +74,7 @@
     @if (Model.businesses != null)
         @foreach (var b in Model.businesses)
         {
-            <div class="card-animated w-49  mt-3 shadow rounded-10">
+            <div class="card animate-blow w-49  mt-3 shadow rounded-10">
                 <a asp-page="BusinessHome" asp-route-id="@b.Id" class="btn">
 
                     <div class="row no-gutters">

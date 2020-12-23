@@ -39,13 +39,18 @@
                 var lname = _self.data('employee').lname;
                 var phone = _self.data('employee').phone;
                 var email = _self.data('employee').email;
-
+                var saudi = _self.data('employee').saudi;
+                var position = _self.data('employee').position;
                 $("#fname").val(fname);
                 $("#lname").val(lname);
                 $("#phone").val(phone);
                 $("#email").val(email);
+                $("#saudi").val(saudi);
+                $("#position").val(position);
                 document.querySelector(".modal-title").innerHTML = "Edit Details";
                 document.getElementById("delete").style.visibility = "visible";
+
+
 
             } else {
                 $("#id").val(0);
@@ -53,6 +58,9 @@
                 $("#lname").val('');
                 $("#phone").val('');
                 $("#email").val('');
+                $("#saudi").val('');
+                $("#position").val('');
+
                 document.querySelector(".modal-title").innerHTML = "New Employee";
                 document.getElementById("delete").style.visibility = "hidden";
 
@@ -70,57 +78,42 @@
         <li class="breadcrumb-item active">Employees</li>
     </ol>
 </nav>
-<!--Add Employees-->
 <div class="row justify-content-center">
-    <div class="card rounded-top shadow w-100">
-        <div class="card-header border-bottom-0 display-5 text-center">
-            Employees
+    <div class="card rounded-10 shadow w-100">
+        <div class="col text-center">
+            <h1 class="display-4">
+                Employees            <a data-employee='{"id":"","fname":"","lname":"","phone":"","email":"","position":"","saudi":""}' title="Add New Employee" class="Open-Employee-Dialog btn btn-light text-success align-bottom" style="cursor:pointer;" href="#EmployeeModal">New&nbsp;<span class="oi oi-plus" title="Add New Document" aria-hidden="true"></span></a>
+            </h1>
         </div>
-        <div class="card-body">
-            <a data-employee='{"id":"","fname":"","lname":"","phone":"","email":""}' title="Add New Employee" class="Open-Employee-Dialog btn btn-light text-success align-bottom" style="cursor:pointer;" href="#EmployeeModal">New&nbsp;<span class="oi oi-plus" title="Add New Document" aria-hidden="true"></span></a>
 
-            <table class="table  table-borderless">
-                <thead class="bg-light font-weight-bold">
-                    <tr class="border-bottom">
-                        <td>First Name</td>
-                        <td>Last Name</td>
-                        <td>Phone#</td>
-                        <td>Email</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-
-
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @if (Model.employees != null)
-                    {
-                        foreach (var employee in Model.employees)
-                        {
-                    <tr class="border-bottom">
-
-
-                        <td>@employee.FirstName</td>
-                        <td>@employee.LastName</td>
-                        <td>@employee.ContactNumber</td>
-                        <td>@employee.Email</td>
-                        <td>
-                            <a asp-page="EmployeeItems" asp-route-id="@employee.Id" class="btn" title="Documents"><span class="oi oi-document"></span></a>
-                        </td>
-                        <td>
-                            <a data-employee='{"id":"@employee.Id","fname":"@employee.FirstName","lname":"@employee.LastName","phone":"@employee.ContactNumber","email":"@employee.Email"}' title="Edit" class="Open-Employee-Dialog btn" style="cursor:pointer;" href="#EmployeeModal"><span class="oi oi-pencil"></span></a>
-                        </td>
-                    </tr>
-
-                        }
-                    }
-
-                </tbody>
-            </table>
-        </div>
     </div>
+</div>
+
+<!--Add Employees-->
+<div class="row card-columns justify-content-between  mt-3">
+
+
+    @if (Model.employees != null)
+    {
+        foreach (var employee in Model.employees)
+        {
+            <div class="card text-center shadow  animate-blow " style="width: 16.85rem;">
+                <a asp-page="EmployeeItems" asp-route-id="@employee.Id" class="btn" title="Documents">
+
+                    <img class="card-img-top img-fluid rounded-10" src="~/media/img_357118.png" alt="Card image cap" style="height:200px;width:200px;">
+
+                    <div class="card-body">
+                        <h5 class="card-title">@employee.FirstName&nbsp;@employee.LastName</h5>
+                        <p class="card-text">@employee.Position</p>
+                    </div>
+                </a>
+
+                <a data-employee='{"id":"@employee.Id","fname":"@employee.FirstName","lname":"@employee.LastName","phone":"@employee.ContactNumber","email":"@employee.Email","position":"@employee.Position","saudi":"@employee.IsSaudiNational"}' title="Edit" class="Open-Employee-Dialog btn card-text" style="cursor:pointer;" href="#EmployeeModal"><span class="oi oi-pencil"></span></a>
+            </div>
+
+        }
+    }
+
 </div>
 <!--Add Employee Item-->
 <!-- Modal Form-->
@@ -133,38 +126,59 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    @*<input type="text" name="bookId" id="id" value="" />*@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Employee.Id" id="id"  />
-                    <div class="form-group">
-                        <label asp-for="Employee.FirstName"></label>
-                        <input asp-for="Employee.FirstName" id="fname" class="form-control" />
-                        <span asp-validation-for="Employee.FirstName" class="text-danger"></span>
+                    <div class="form-row">
+                        <input type="hidden" asp-for="Employee.Id" id="id" />
+                        <div class="form-group  col-md-6">
+                            <label asp-for="Employee.FirstName"></label>
+                            <input asp-for="Employee.FirstName" id="fname" class="form-control" />
+                            <span asp-validation-for="Employee.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label asp-for="Employee.LastName"></label>
+                            <input asp-for="Employee.LastName" id="lname" class="form-control" />
+                            <span asp-validation-for="Employee.LastName" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Employee.LastName"></label>
-                        <input asp-for="Employee.LastName" id="lname" class="form-control" />
-                        <span asp-validation-for="Employee.LastName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Employee.ContactNumber"></label>
-                        <input asp-for="Employee.ContactNumber" id="phone" class="form-control" />
-                        <span asp-validation-for="Employee.ContactNumber" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Employee.Email"></label>
-                        <input asp-for="Employee.Email" id="email" class="form-control" />
-                        <span asp-validation-for="Employee.Email" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="modal-footer">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Employee.Position"></label>
+                            <input asp-for="Employee.Position" id="position" class="form-control" />
+                            <span asp-validation-for="Employee.Position" class="text-danger"></span>
+                        </div>
 
-                    <div class="form-group pt-2  ">
-                        <button id="delete" onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete&nbsp;<span class="oi oi-trash"></span></button> <!--OnPostDelete is consumed by asp-page-handler "Its Case sensitive" -->
-                        <button type="submit" class="btn btn-primary rounded-10 shadow ">Save &nbsp;<span class="oi oi-check"></span></button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Employee.ContactNumber"></label>
+                            <input asp-for="Employee.ContactNumber" id="phone" class="form-control" />
+                            <span asp-validation-for="Employee.ContactNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Employee.Email"></label>
+                            <input asp-for="Employee.Email" id="email" class="form-control" />
+                            <span asp-validation-for="Employee.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+      
+                    <div class="form-group row">
+                        <div class="col-sm-2">Saudi?</div>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input asp-for="Employee.IsSaudiNational" class="form-check-input" type="checkbox" id="saudi">
+                                <span asp-validation-for="Employee.IsSaudiNational" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div><!-- /.modal-content -->
+                    <div class="modal-footer">
+
+                        <div class="form-group pt-2">
+                            <button type="submit" class="btn btn-primary rounded-10 shadow ">Save &nbsp;<span class="oi oi-check"></span></button>
+                            <button id="delete" onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete&nbsp;<span class="oi oi-trash"></span></button> <!--OnPostDelete is consumed by asp-page-handler "Its Case sensitive" -->
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
         </form>
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
