@@ -70,6 +70,8 @@ namespace AMM_Project.Frontend.Pages
             employee.LastName = Employee.LastName;
             employee.ContactNumber = Employee.ContactNumber;
             employee.Email = Employee.Email;
+            employee.Position = Employee.Position;
+            employee.Position = Employee.Position;
             employee.BranchId = Id.Value;
 
 

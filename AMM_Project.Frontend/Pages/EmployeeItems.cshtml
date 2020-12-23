@@ -99,6 +99,7 @@
         </div>
         <div class="card-body">
             <a data-item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add New Document" class="Open-Item-Dialog btn btn-light text-success rounded-10 align-bottom " style="cursor:pointer;" href="#ItemModal">New&nbsp;<span class="oi oi-plus" title="Add New Document" aria-hidden="true"></span></a>
+            <div class="float-right"> <span class="oi oi-media-stop text-danger"></span>&nbsp; Less than 30 days to expire.&nbsp;<span class="oi oi-media-stop text-warning"></span>&nbsp;Expired&nbsp;</div>
 
             <table class="table  table-borderless w-100 ">
                 <thead class="bg-light font-weight-bold">
@@ -135,49 +136,51 @@
                             {
                                 color = "";
                             }
-                    <tr class="border-bottom @color ">
+                            <tr class="border-bottom @color ">
 
-                        <td>@Item.DocumentTitle</td>
-                        <td>@Item.DocumentNumber</td>
-                        @if (Item.ExpDate.HasValue)
-                        {
-                        <td>@Item.ExpDate.Value.ToString("yyyy-MM-dd")</td>
-                        }
-                        else
-                        {<td></td>}
-                        @if (Item.ItemAnnualExpectedCost != null)
-                        {
-                            total += Item.ItemAnnualExpectedCost.Value;
-                        }
-                        <td>@Item.ItemAnnualExpectedCost</td>
-
-                        <td>
-                            @if (Item.FileName != null)
-                            {
-                                <a class="btn" asp-page-handler="DownloadDb" asp-route-id="@Item.Id"><span class="oi oi-cloud-download" title="Download" aria-hidden="true"></span></a>
-                            }
-                            @if (Item.ExpDate.HasValue)
-                            {
-                                <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate.Value.ToString("yyyy-MM-dd")","cost":"@Item.ItemAnnualExpectedCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
-                            }
-                            else
-                            {
-                                <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"","cost":"@Item.ItemAnnualExpectedCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
-
-                            }
-                        </td>
-
-                    </tr>
-
-                        }
-
-                                <tr class="border-bottom bg-light">
-                                    <td>Total</td>
+                                <td>@Item.DocumentTitle</td>
+                                <td>@Item.DocumentNumber</td>
+                                @if (Item.ExpDate.HasValue)
+                                {
+                                    <td>@Item.ExpDate.Value.ToString("yyyy-MM-dd")</td>
+                                }
+                                else
+                                {
                                     <td></td>
-                                    <td></td>
-                                    <td>@total</td>
-                                    <td></td>
-                                 </tr>
+                                }
+                                @if (Item.ItemAnnualExpectedCost != null)
+                                {
+                                    total += Item.ItemAnnualExpectedCost.Value;
+                                }
+                                <td>@Item.ItemAnnualExpectedCost</td>
+
+                                <td>
+                                    @if (Item.FileName != null)
+                                    {
+                                        <a class="btn" asp-page-handler="DownloadDb" asp-route-id="@Item.Id"><span class="oi oi-cloud-download" title="Download" aria-hidden="true"></span></a>
+                                    }
+                                    @if (Item.ExpDate.HasValue)
+                                    {
+                                        <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate.Value.ToString("yyyy-MM-dd")","cost":"@Item.ItemAnnualExpectedCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
+                                    }
+                                    else
+                                    {
+                                        <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"","cost":"@Item.ItemAnnualExpectedCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
+
+                                    }
+                                </td>
+
+                            </tr>
+
+                        }
+
+                        <tr class="border-bottom bg-light">
+                            <td>Total</td>
+                            <td></td>
+                            <td></td>
+                            <td>@total</td>
+                            <td></td>
+                        </tr>
 
                     }
 
