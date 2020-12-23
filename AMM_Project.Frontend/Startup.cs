@@ -63,6 +63,19 @@ namespace AMM_Project.Frontend
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //create database from migrations if not exist
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var appContext = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var userContext = serviceScope.ServiceProvider.GetRequiredService<UsersDbContext>();
+                appContext.Database.Migrate();
+                userContext.Database.Migrate();
+              
+              
+                }
+
+            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
