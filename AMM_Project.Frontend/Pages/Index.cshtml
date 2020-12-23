@@ -63,7 +63,7 @@
     <div class="card rounded-10 shadow w-100">
         <div class="col text-center">
             <h1 class="display-4">
-                My Businesses         <a data-business='{"id":"","name":"","activity":""}' title="Add Business" class="Open-Business-Dialog btn btn-light text-success" style="cursor:pointer;" href="#BusinessModal">Add&nbsp;<span class="oi oi-plus"></span></a>
+                My Businesses         <a data-business='{"id":"","name":"","activity":""}' title="Add Business" class="Open-Business-Dialog btn btn-light text-success animate-blow" style="cursor:pointer;" href="#BusinessModal">Add&nbsp;<span class="oi oi-plus"></span></a>
             </h1>
         </div>
     </div>
@@ -74,7 +74,7 @@
     @if (Model.businesses != null)
         @foreach (var b in Model.businesses)
         {
-            <div class="card-animated w-49  mt-3 shadow rounded-10">
+            <div class="card animate-blow w-49  mt-3 shadow rounded-10">
                 <a asp-page="BusinessHome" asp-route-id="@b.Id" class="btn">
 
                     <div class="row no-gutters">
