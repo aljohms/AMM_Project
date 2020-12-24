@@ -63,7 +63,7 @@
                 $("#lname").val('');
                 $("#phone").val('');
                 $("#email").val('');
-                $("#Employee_IsSaudiNational").val('');
+                $("#Employee_IsSaudiNational").prop('checked', false);
                 $("#position").val('');
 
                 document.querySelector(".modal-title").innerHTML = "New Employee";
@@ -95,7 +95,7 @@
 </div>
 
 <!--Add Employees-->
-<div class="row card-columns justify-content-between  mt-3">
+<div class="row card-columns justify-content-center  mt-3">
 
 
     @if (Model.employees != null)
