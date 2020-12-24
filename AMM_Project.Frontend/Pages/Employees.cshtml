@@ -45,7 +45,12 @@
                 $("#lname").val(lname);
                 $("#phone").val(phone);
                 $("#email").val(email);
-                $("#saudi").val(saudi);
+                if (saudi == "True") {
+                    $("#Employee_IsSaudiNational").prop('checked', true);
+                }
+                else{
+                    $("#Employee_IsSaudiNational").prop('checked', false);
+                }
                 $("#position").val(position);
                 document.querySelector(".modal-title").innerHTML = "Edit Details";
                 document.getElementById("delete").style.visibility = "visible";
@@ -58,7 +63,7 @@
                 $("#lname").val('');
                 $("#phone").val('');
                 $("#email").val('');
-                $("#saudi").val('');
+                $("#Employee_IsSaudiNational").val('');
                 $("#position").val('');
 
                 document.querySelector(".modal-title").innerHTML = "New Employee";
@@ -161,14 +166,13 @@
                         </div>
                     </div>
       
-                    <div class="form-group row">
-                        <div class="col-sm-2">Saudi?</div>
-                        <div class="col-sm-10">
-                            <div class="form-check">
-                                <input asp-for="Employee.IsSaudiNational" class="form-check-input"  id="saudi">
-                                <span asp-validation-for="Employee.IsSaudiNational" class="text-danger"></span>
+                    <div class="form-group">
+                            <div class="checkbox">
+                                <label asp-for="Employee.IsSaudiNational">
+                                    <input asp-for="Employee.IsSaudiNational" />
+                                    @Html.DisplayNameFor(m => m.Employee.IsSaudiNational)
+                                </label>
                             </div>
-                        </div>
                     </div>
                 </div>
                     <div class="modal-footer">
