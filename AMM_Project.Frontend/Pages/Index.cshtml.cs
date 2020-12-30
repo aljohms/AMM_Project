@@ -1,8 +1,10 @@
 ﻿using AMM_Project.Frontend.Models;
 using AMM_Project.Frontend.Services;
+using AMM_Project.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,16 +19,20 @@ namespace AMM_Project.Frontend.Pages
         private readonly IBusinessService businessService;
         private readonly IBranchItemService branchItemService;
         private readonly IEmployeeItemService employeeItemService;
+        private readonly long _fileSizeLimit;
+        private readonly string[] _permittedExtensions = { ".jpg", ".jpeg", ".png", ".svg" };
 
-
-        public IndexModel(ILogger<IndexModel> logger, IBusinessService businessService, IBranchItemService branchItemService, IEmployeeItemService employeeItemService)
+        public IndexModel(ILogger<IndexModel> logger, IBusinessService businessService, IBranchItemService branchItemService, IEmployeeItemService employeeItemService, IConfiguration config)
         {
             _logger = logger;
             this.businessService = businessService;
             this.branchItemService = branchItemService;
             this.employeeItemService = employeeItemService;
+            _fileSizeLimit = config.GetValue<long>("FileSizeLimit");
+
+
         }
-       
+
         public IList<Business> businesses; 
         //Input from View
         [BindProperty]
@@ -107,6 +113,20 @@ namespace AMM_Project.Frontend.Pages
             //Only update image when its changed or uploaded
             if (Image != null)
             {
+                var formFileContent =
+               await FileHelpers.ProcessFormFile<Business>(
+                   Image, ModelState, _permittedExtensions,
+                   _fileSizeLimit);
+
+                // Perform a second check to catch ProcessFormFile method
+                // violations. If any validation check fails, return to the
+                // page.
+                if (!ModelState.IsValid)
+                {
+                   // Result = "Please correct the form.";
+
+                    return Page();
+                }
                 //Create a new instance of the system.IO.MemoryStream object and wrap it in a Using statement to be sure that it's cleaned up after we're done with it.
                 using (var Stream = new System.IO.MemoryStream())
                 {
