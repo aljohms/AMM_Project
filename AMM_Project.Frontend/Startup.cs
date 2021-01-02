@@ -34,13 +34,10 @@ namespace AMM_Project.Frontend
             options.Conventions.AuthorizePage("/index");//Like using Authorize on top of page
 
         });
-            services.AddScoped<IBusinessService, BusinessService>();//add service for loose coupling
-            services.AddScoped<IBranchService, BranchService>();//add service for loose coupling
-            services.AddScoped<IBranchItemService, BranchItemService>();//add service for loose coupling
-            services.AddScoped<IEmployeeService, EmployeeService>();//add service for loose coupling
-            services.AddScoped<IEmployeeItemService, EmployeeItemService>();//add service for loose coupling
+           
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<UsersDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+          
             //Configuring Identity
             services.AddIdentity<ApplicationUser, IdentityRole>()//IdentityUser has properties like username, email, and a collection of user Claims. You could also inherit from IdentityUser to add your own custom properties. Identity Role  provides authorization information, like access rights. The default class has properties like Role Name. You can also derive from it if you need to customize it. 
                 .AddEntityFrameworkStores<UsersDbContext>()//Tell Identity Services to use entity framework.
@@ -57,7 +54,11 @@ namespace AMM_Project.Frontend
                 options.Password.RequireLowercase = false;
             });
             // services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("Backend"));
-
+            services.AddScoped<IBusinessService, BusinessService>();//add service for loose coupling
+            services.AddScoped<IBranchService, BranchService>();//add service for loose coupling
+            services.AddScoped<IBranchItemService, BranchItemService>();//add service for loose coupling
+            services.AddScoped<IEmployeeService, EmployeeService>();//add service for loose coupling
+            services.AddScoped<IEmployeeItemService, EmployeeItemService>();//add service for loose coupling
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

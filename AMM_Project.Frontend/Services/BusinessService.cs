@@ -11,14 +11,14 @@ namespace AMM_Project.Frontend.Services
     {
         private readonly AppDbContext _context;
 
-        public BusinessService()
-        {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Backend")
-                .Options;
+        //public BusinessService()
+        //{
+        //    var options = new DbContextOptionsBuilder<AppDbContext>()
+        //        .UseInMemoryDatabase("Backend")
+        //        .Options;
 
-            _context = new AppDbContext(options);
-        }
+        //    _context = new AppDbContext(options);
+        //}
 
         public BusinessService(AppDbContext context)
         {

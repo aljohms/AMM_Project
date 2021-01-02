@@ -15,19 +15,17 @@ namespace AMM_Project.Frontend.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-        private readonly IBusinessService businessService;
-        private readonly IBranchItemService branchItemService;
-        private readonly IEmployeeItemService employeeItemService;
+        private readonly IBusinessService _businessService;
+        private readonly IBranchItemService _branchItemService;
+        private readonly IEmployeeItemService _employeeItemService;
         private readonly long _fileSizeLimit;
         private readonly string[] _permittedExtensions = { ".jpg", ".jpeg", ".png", ".svg" };
 
-        public IndexModel(ILogger<IndexModel> logger, IBusinessService businessService, IBranchItemService branchItemService, IEmployeeItemService employeeItemService, IConfiguration config)
+        public IndexModel(IBusinessService businessService, IBranchItemService branchItemService, IEmployeeItemService employeeItemService, IConfiguration config)
         {
-            _logger = logger;
-            this.businessService = businessService;
-            this.branchItemService = branchItemService;
-            this.employeeItemService = employeeItemService;
+            _businessService = businessService;
+            _branchItemService = branchItemService;
+            _employeeItemService = employeeItemService;
             _fileSizeLimit = config.GetValue<long>("FileSizeLimit");
 
 
@@ -48,11 +46,11 @@ namespace AMM_Project.Frontend.Pages
             public DateTime date { get; set; }
         }
         public IList<Upcoming> upcomings = new List<Upcoming>();
-        public async Task OnGetAsync()
+        public  void OnGetAsync()
         {
-           await GetBusinessList();
-            var employeeItems = await employeeItemService.GetAllAsync();
-            var branchItems = await branchItemService.GetAllAsync();
+            businesses =  _businessService.GetAll().ToList();
+            var employeeItems =  _employeeItemService.GetAll();
+            var branchItems =  _branchItemService.GetAll();
             if (branchItems != null)
             {
                 foreach (var item in branchItems)
@@ -86,21 +84,21 @@ namespace AMM_Project.Frontend.Pages
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            await GetBusinessList();
+            businesses = await _businessService.GetAllAsync();
 
-           
+
 
             //Validate Form Check for required fields and errors then populate the corresponding message
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            var business = await businessService.FindAsync(Business.Id) ?? new Business();//if the business doesnt exist create a new one 
+            var business = await _businessService.FindAsync(Business.Id) ?? new Business();//if the business doesnt exist create a new one 
             //Check if the business Name unique if not return error
             if(businesses.FirstOrDefault(x=>x.Name== Business.Name) !=null && business.Id!= businesses.FirstOrDefault(x => x.Name == Business.Name).Id)
             {
                 ModelState.AddModelError("Business.Name","Business Already Exists");
-                await GetBusinessList();
+                businesses = await _businessService.GetAllAsync();
                 return Page();
             }
             //get data from the Bind Property Model
@@ -139,17 +137,13 @@ namespace AMM_Project.Frontend.Pages
                     business.ImageContentType = Image.ContentType;
                 }
             }
-            await businessService.SaveAsync(business);
+            await _businessService.SaveAsync(business);
             return RedirectToPage();
         }
-        public async Task GetBusinessList()
-        {
-            businesses = await businessService.GetAllAsync();
-
-        }
+             
         public async Task<IActionResult> OnPostDelete()
         {
-            await businessService.DeleteAsync(Business.Id);
+            await _businessService.DeleteAsync(Business.Id);
             return RedirectToPage();
         }
     }

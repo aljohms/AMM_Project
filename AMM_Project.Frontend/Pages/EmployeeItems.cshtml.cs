@@ -46,12 +46,12 @@ namespace AMM_Project.Frontend.Pages
         {
             if (Id.HasValue)
             {
-                titlesList = employeeItemService.GetAllAsync().Result.Select(x => x.DocumentTitle).Distinct().ToList();
+                titlesList =  employeeItemService.GetAll().Select(x => x.DocumentTitle).Distinct().ToList();
                 titlesList.Add("اقامة");
                 titlesList.Add("جواز سفر");
                 titlesList.Add("عقد العمل");
                 titles = titlesList.Distinct().ToArray();
-                employeeItems = employeeItemService.GetAllAsync().Result.Where(x => x.EmployeeId == Id.Value).ToList();
+                employeeItems =  employeeItemService.GetAll().Where(x => x.EmployeeId == Id.Value).ToList();
                 var breadCrumbsItems = await employeeService.FindAsync(Id.Value);
                 if (breadCrumbsItems != null)
                 {

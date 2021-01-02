@@ -11,14 +11,14 @@ namespace AMM_Project.Frontend.Services
     {
         private readonly AppDbContext _context;
 
-        public BranchItemService()
-        {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Backend")
-                .Options;
+        //public BranchItemService()
+        //{
+        //    var options = new DbContextOptionsBuilder<AppDbContext>()
+        //        .UseInMemoryDatabase("Backend")
+        //        .Options;
 
-            _context = new AppDbContext(options);
-        }
+        //    _context = new AppDbContext(options);
+        //}
 
         public BranchItemService(AppDbContext context)
         {

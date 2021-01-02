@@ -43,9 +43,9 @@ namespace AMM_Project.Frontend.Pages
         {
             if (Id.HasValue)
             {
-                branches =  branchService.GetAllAsync().Result.Where(x=>x.BusinessId == Id.Value).ToList();
-                var getBusinessName = await businessService.FindAsync(Id.Value);
-                var employeeItems = await employeeItemService.GetAllAsync();
+                branches =  branchService.GetAll().Where(x=>x.BusinessId == Id.Value).ToList();
+                var getBusinessName =  businessService.Find(Id.Value);
+                var employeeItems =  employeeItemService.GetAll();
                 var branchItems = await branchItemService.GetAllAsync();
                 if (branchItems != null)
                 {
@@ -83,7 +83,6 @@ namespace AMM_Project.Frontend.Pages
                 else
                     return RedirectToPage("/Index");
             }
-         
                 return RedirectToPage("/Index");
             
         }
