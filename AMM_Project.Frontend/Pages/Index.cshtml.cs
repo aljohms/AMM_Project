@@ -15,6 +15,7 @@ namespace AMM_Project.Frontend.Pages
 {
     public class IndexModel : PageModel
     {
+        //
         private readonly IBusinessService _businessService;
         private readonly IBranchItemService _branchItemService;
         private readonly IEmployeeItemService _employeeItemService;
