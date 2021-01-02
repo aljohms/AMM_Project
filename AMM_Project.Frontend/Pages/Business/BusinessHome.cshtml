@@ -1,0 +1,191 @@
+﻿@page "{id?}"
+@model BusinessHomeModel
+@section Scripts{ 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
+                $('#BranchModal').modal('show');
+                var id = document.getElementById('id').value;
+                if (id > 0) {
+                    document.querySelector(".modal-title").innerHTML = "Edit Details";
+                    document.getElementById("delete").style.visibility = "visible";
+                } else {
+                    document.querySelector(".modal-title").innerHTML = "New Branch";
+                    document.getElementById("delete").style.visibility = "hidden";
+                }
+            }
+        });
+
+        $(document).on("click", ".Open-Branch-Dialog", function (e) {
+            e.preventDefault();
+            var _self = $(this);
+            var id = _self.data('branch').id;
+            $("#id").val(id);
+
+            $(".validation-summary-errors").empty();
+            $('.field-validation-error').empty();
+           
+
+            if (id>0) {
+                var location = _self.data('branch').location;
+                var name = _self.data('branch').name;
+                $("#name").val(name);
+                $("#location").val(location);
+                document.querySelector(".modal-title").innerHTML = "Edit Branch";
+                document.getElementById("delete").style.visibility = "visible";
+            } else {
+                $("#id").val(0);
+                $("#name").val('');
+                $("#location").val('');
+                document.querySelector(".modal-title").innerHTML = "New Branch";
+                document.getElementById("delete").style.visibility = "hidden";
+            }
+
+            $(_self.attr('href')).modal('show');
+        });
+    </script>
+}
+    <!--Section 1-->
+    <nav aria-label="breadcrumb w-100">
+        <ol class="breadcrumb row ">
+            <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
+            <li class="breadcrumb-item active">@Model.currentBusiness</li>
+        </ol>
+    </nav>
+    <div class="row justify-content-center">
+        <div class=" rounded bg-light w-100">
+            <div class="col text-center">
+                <h1 class="display-4">@Model.currentBusiness <a data-branch='{"id":"","name":"","location":""}' title="New Branch" class="Open-Branch-Dialog btn btn-light text-success" style="cursor:pointer;" href="#BranchModal">Add&nbsp;<span class="oi oi-plus"></span></a></h1>
+
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <!--Businesses List-->
+    <div class="row justify-content-around ">
+        @if (Model.branches != null)
+            foreach (var branch in Model.branches)
+            {
+                <div class="card col-lg-4 shadow  rounded-10">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            @branch.Name</h5>
+                        <p class="card-text">
+                            @if (!string.IsNullOrWhiteSpace(branch.Location))
+                            {
+                                @branch.Location
+
+                            }
+                            else
+                            {
+                                <b>-</b>
+                            }
+                            <a data-branch='{"id":"@branch.Id","name":"@branch.Name","location":"@branch.Location"}' title="Edit" class="Open-Branch-Dialog btn  w-100" style="cursor:pointer;" href="#BranchModal"><span class="oi oi-pencil"></span></a>
+                        </p>
+
+                        <a asp-page="Employees" asp-route-id="@branch.Id" class="btn btn-dark  shadow rounded-10 w-49">
+                            Employees&nbsp;<span class="oi oi-people"></span>
+                        </a>
+                        <a asp-page="BranchItems" asp-route-id="@branch.Id" class="btn shadow rounded-10 btn-dark w-49">
+                            Branch&nbsp;<span class="oi oi-home"></span>
+                        </a>
+                    </div>
+                </div>                              
+            }
+    </div>
+    <br />
+    <!--Businesses List End-->
+    <!--Section 2-->
+    <div class="row justify-content-center">
+        <div class="card rounded-top shadow w-100">
+            <div class="card-header border-bottom-0 display-5 text-center"> Important Dates </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+
+
+                    @if (Model.upcomings != null && Model.upcomings.Count() > 0)
+                    {
+                        <thead>
+                            <tr class="border-bottom font-weight-bold">
+                                <td>Branch</td>
+                                <td>Document</td>
+                                <td>Expiry Date</td>
+                            </tr>
+                        </thead>
+                        foreach (var upcoming in Model.upcomings)
+                        {
+                            string color = "";
+                            @if (upcoming.date <= DateTime.Today.Date)
+                            {
+                                color = "bg-danger text-light";
+                            }
+                            else
+                            {
+                                color = "bg-warning";
+                            }
+                            <tbody>
+                                <tr class="border-bottom @color">
+                                    <td>@upcoming.Branch</td>
+                                    <td>@upcoming.Details</td>
+                                    <td>@upcoming.date.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            </tbody>
+
+
+                        }
+
+                    }
+                    else
+                    {
+                        <tbody>
+                            <tr class="text-center">
+                                <td>No Important Dates!</td>
+                            </tr>
+                        </tbody>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <!--End Section 2-->
+
+    <div class="modal fade" id="BranchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title display-5" id="myModalLabel"></div>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Branch.Id" id="id" />
+
+                        <h1 id="id"></h1>
+                        <div class="form-group">
+                            <label asp-for="Branch.Name"></label>
+                            <input asp-for="Branch.Name" id="name"  class="form-control" />
+                            <span asp-validation-for="Branch.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Branch.Location"></label>
+                            <input asp-for="Branch.Location" id="location"  class="form-control" />
+                            <span asp-validation-for="Branch.Location" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <div class="form-group pt-2  ">
+                            <button id="delete" onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete&nbsp;<span class="oi oi-trash"></span></button> <!--OnPostDelete is consumed by asp-page-handler "Its Case sensitive" -->
+                            <button type="submit" class="btn btn-primary rounded-0 shadow ">Save &nbsp;<span class="oi oi-check"></span></button>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </form>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->

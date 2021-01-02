@@ -78,13 +78,13 @@
 <nav aria-label="breadcrumb w-100">
     <ol class="breadcrumb row rounded-0 ">
         <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
-        <li class="breadcrumb-item"><a asp-page="BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
-        <li class="breadcrumb-item"><a asp-page="BranchHome" asp-route-id="@Model.viewContent.BranchId">@Model.viewContent.BranchName</a></li>
+        <li class="breadcrumb-item"><a asp-page="/Business/BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
+        <li class="breadcrumb-item"><a asp-page="/Business/BranchHome" asp-route-id="@Model.viewContent.BranchId">@Model.viewContent.BranchName</a></li>
         <li class="breadcrumb-item active">Employees</li>
     </ol>
 </nav>
 <div class="row justify-content-center">
-    <div class="card rounded-10 shadow w-100">
+    <div class=" rounded bg-light w-100">
         <div class="col text-center">
             <h1 class="display-4">
                 Employees            <a data-employee='{"id":"","fname":"","lname":"","phone":"","email":"","position":"","saudi":""}' title="Add New Employee" class="Open-Employee-Dialog btn btn-light text-success align-bottom" style="cursor:pointer;" href="#EmployeeModal">New&nbsp;<span class="oi oi-plus" title="Add New Document" aria-hidden="true"></span></a>
@@ -103,7 +103,7 @@
         foreach (var employee in Model.employees)
         {
             <div class="card text-center shadow  animate-blow " style="width: 16.85rem;">
-                <a asp-page="EmployeeItems" asp-route-id="@employee.Id" class="btn" title="Documents">
+                <a asp-page="/Business/EmployeeItems" asp-route-id="@employee.Id" class="btn" title="Documents">
 
                     <img class="card-img-top img-fluid rounded-10" src="~/media/img_357118.png" alt="Card image cap" style="height:200px;width:200px;">
 

@@ -14,12 +14,12 @@
                 var id = document.getElementById('id').value;
                 if (id > 0) {
                     document.querySelector(".modal-title").innerHTML = "Edit Business";
+                    document.getElementById("delete").disabled = false;
                     document.getElementById("delete").style.visibility = "visible";
-
                 } else {
                     document.querySelector(".modal-title").innerHTML = "New Business";
+                    document.getElementById("delete").disabled = true;
                     document.getElementById("delete").style.visibility = "hidden";
-
                 }
             }
         });
@@ -39,13 +39,16 @@
                 $("#name").val(name);
                 $("#activity").val(activity);
                 document.querySelector(".modal-title").innerHTML = "Edit Business";
+                document.getElementById("delete").disabled = false;
                 document.getElementById("delete").style.visibility = "visible";
+
 
             } else {
                 $("#id").val(0);
                 $("#name").val('');
                 $("#activity").val('');
                 document.querySelector(".modal-title").innerHTML = "New Business";
+                document.getElementById("delete").disabled = true;
                 document.getElementById("delete").style.visibility = "hidden";
 
             }
@@ -60,7 +63,7 @@
 <!--Lay-->
 <!--Section 1-->
 <div class="row justify-content-center">
-    <div class="card rounded-10 shadow w-100">
+    <div class=" rounded bg-light w-100">
         <div class="col text-center">
             <h1 class="display-4">
                 My Businesses         <a data-business='{"id":"","name":"","activity":""}' title="Add Business" class="Open-Business-Dialog btn btn-light text-success animate-blow" style="cursor:pointer;" href="#BusinessModal">Add&nbsp;<span class="oi oi-plus"></span></a>
@@ -75,7 +78,7 @@
         @foreach (var b in Model.businesses)
         {
             <div class="card animate-blow w-49  mt-3 shadow rounded-10">
-                <a asp-page="BusinessHome" asp-route-id="@b.Id" class="btn">
+                <a asp-page="Business/BusinessHome" asp-route-id="@b.Id" class="btn">
 
                     <div class="row no-gutters">
 
@@ -191,10 +194,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="form-group pt-2  ">
-                        <button id="delete"   onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete&nbsp;<span class="oi oi-trash"></span></button> <!--OnPostDelete is consumed by asp-page-handler "Its Case sensitive" -->
+                    <div class="form-group pt-2" id="formSection">
                         <button type="submit" class="btn btn-primary rounded-10 shadow ">Save &nbsp;<span class="oi oi-check"></span></button>
-
+                        <button id="delete" onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete&nbsp;<span class="oi oi-trash"></span></button>
 
                     </div>
                 </div>

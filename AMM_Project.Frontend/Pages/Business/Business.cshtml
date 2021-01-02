@@ -1,5 +1,5 @@
 ﻿@page "{id?}"
-@model BusinessHomeModel
+@model BusinessModel
 @section Scripts{ 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -53,16 +53,16 @@
         </ol>
     </nav>
     <div class="row justify-content-center">
-        <div class="card rounded-0 shadow w-100">
+        <div class=" rounded bg-light w-100">
             <div class="col text-center">
-                <h1 class="display-4">@Model.currentBusiness <a data-branch='{"id":"","name":"","location":""}' title="New Branch" class="Open-Branch-Dialog btn btn-light text-success" style="cursor:pointer;" href="#BranchModal">Add&nbsp;<span class="oi oi-plus"></span></a></h1>           
+                <h1 class="display-4">@Model.currentBusiness <a data-branch='{"id":"","name":"","location":""}' title="New Branch" class="Open-Branch-Dialog btn btn-light text-success" style="cursor:pointer;" href="#BranchModal">Add&nbsp;<span class="oi oi-plus"></span></a></h1>
 
             </div>
         </div>
     </div>
 
     <br />
-    <!--Businesses List-->
+    <!--Branch List-->
     <div class="row justify-content-around ">
         @if (Model.branches != null)
             foreach (var branch in Model.branches)
@@ -95,61 +95,8 @@
             }
     </div>
     <br />
-    <!--Businesses List End-->
-    <!--Section 2-->
-    <div class="row justify-content-center">
-        <div class="card rounded-top shadow w-100">
-            <div class="card-header border-bottom-0 display-5 text-center"> Important Dates </div>
-            <div class="card-body">
-                <table class="table table-borderless">
+    <!--Branches List End-->
 
-
-                    @if (Model.upcomings != null && Model.upcomings.Count() > 0)
-                    {
-                        <thead>
-                            <tr class="border-bottom font-weight-bold">
-                                <td>Branch</td>
-                                <td>Document</td>
-                                <td>Expiry Date</td>
-                            </tr>
-                        </thead>
-                        foreach (var upcoming in Model.upcomings)
-                        {
-                            string color = "";
-                            @if (upcoming.date <= DateTime.Today.Date)
-                            {
-                                color = "bg-danger text-light";
-                            }
-                            else
-                            {
-                                color = "bg-warning";
-                            }
-                            <tbody>
-                                <tr class="border-bottom @color">
-                                    <td>@upcoming.Branch</td>
-                                    <td>@upcoming.Details</td>
-                                    <td>@upcoming.date.ToString("dd/MM/yyyy")</td>
-                                </tr>
-                            </tbody>
-
-
-                        }
-
-                    }
-                    else
-                    {
-                        <tbody>
-                            <tr class="text-center">
-                                <td>No Important Dates!</td>
-                            </tr>
-                        </tbody>
-                    }
-
-                </table>
-            </div>
-        </div>
-    </div>
-    <br />
     <!--End Section 2-->
 
     <div class="modal fade" id="BranchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

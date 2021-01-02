@@ -32,7 +32,8 @@ namespace AMM_Project.Frontend
               .AddCookie();
             services.AddRazorPages(options => { 
             options.Conventions.AuthorizePage("/index");//Like using Authorize on top of page
-
+                options.Conventions.AuthorizeFolder("/Business");
+                
         });
            
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
