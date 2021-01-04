@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AMM_Project.Frontend.Pages
 {
-    public class BusinessModel : PageModel
+    public class HomeModel : PageModel
     {
         private readonly IBranchService branchService;
         private readonly IBusinessService businessService;
@@ -18,7 +18,7 @@ namespace AMM_Project.Frontend.Pages
         private readonly IEmployeeItemService employeeItemService;
 
 
-        public BusinessModel(IBranchService branchService, IBusinessService businessService, IBranchItemService branchItemService, IEmployeeItemService employeeItemService)
+        public HomeModel(IBranchService branchService, IBusinessService businessService, IBranchItemService branchItemService, IEmployeeItemService employeeItemService)
         {
             this.branchService = branchService;
             this.businessService = businessService;

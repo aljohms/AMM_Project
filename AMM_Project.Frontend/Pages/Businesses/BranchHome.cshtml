@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb w-100">
         <ol class="breadcrumb row rounded-0 ">
             <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
-            <li class="breadcrumb-item"><a asp-page="/Business/BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Businesses/BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
             <li class="breadcrumb-item active">@Model.viewContent.BranchName</li>
         </ol>
     </nav>
@@ -21,7 +21,7 @@
     <br />
     <div class="row justify-content-between ">
         <div class="card w-49 shadow rounded-10 ">
-            <a asp-page="/Business/Employees" asp-route-id="@Model.viewContent.BranchId" class="btn">
+            <a asp-page="/Businesses/Employees" asp-route-id="@Model.viewContent.BranchId" class="btn">
                 <img class="card-img-top" src="~/media/employee.png" style="height:200px;width:200px;" />
 
                 <div class="row no-gutters">

@@ -48,7 +48,7 @@ namespace AMM_Project.Frontend.Services
 
             return _context.EmployeeItem.Include(x => x.Employee).Include(x => x.Employee).ThenInclude(x => x.Branch).ThenInclude(x => x.Business)
                     .Skip(actualCount * page.GetValueOrDefault(0))
-                    .Take(actualCount);
+                    .Take(actualCount); 
         }
         public async Task SaveAsync(EmployeeItem employeeItem)
         {

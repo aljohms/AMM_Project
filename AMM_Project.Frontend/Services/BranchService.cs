@@ -47,7 +47,7 @@ namespace AMM_Project.Frontend.Services
 
             return _context.Branch.Include(x=>x.Business)
                     .Skip(actualCount * page.GetValueOrDefault(0))
-                    .Take(actualCount);
+                    .Take(actualCount) ;
         }
         public async Task SaveAsync(Branch branch)
         {

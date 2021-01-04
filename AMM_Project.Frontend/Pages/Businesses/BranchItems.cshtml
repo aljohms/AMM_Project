@@ -1,5 +1,5 @@
 ﻿@page "{id?}"
-@model EmployeeItemsModel
+@model BranchItemsModel
 @section scripts {
     <script type="text/javascript">
         // Add the following code if you want the name of the file appear on select
@@ -15,11 +15,9 @@
                 if (id > 0) {
                     document.querySelector(".modal-title").innerHTML = "Edit Document";
                     document.getElementById("delete").style.visibility = "visible";
-
                 } else {
                     document.querySelector(".modal-title").innerHTML = "New Document";
                     document.getElementById("delete").style.visibility = "hidden";
-
                 }
             }
         });
@@ -27,11 +25,11 @@
             var checkBox = document.getElementById("titleCheckBox");
             if (checkBox.checked == true) {
 
-                document.getElementById("title").outerHTML = '<input id="title" class="form-control" type="text" data-val="true" data-val-required="The Document Title field is required." name="EmployeeItem.DocumentTitle" value="">';
+                document.getElementById("title").outerHTML= '<input id="title" class="form-control" type="text" data-val="true" data-val-required="The Document Title field is required." name="BranchItem.DocumentTitle" value="">';
 
             } else {
 
-                document.getElementById("title").outerHTML = '<select id="title" class="form-control" data-val="true" data-val-required="The Document Title field is required." name="EmployeeItem.DocumentTitle"></select>';
+                document.getElementById("title").outerHTML = '<select id="title" class="form-control" data-val="true" data-val-required="The Document Title field is required." name="BranchItem.DocumentTitle"></select>';
 
                 var select = document.getElementById("title");
                 var options =@Html.Raw(Json.Serialize(Model.titles));
@@ -67,7 +65,6 @@
                 $("#cost").val(cost);
                 document.querySelector(".modal-title").innerHTML = "Edit Document";
                 document.getElementById("delete").style.visibility = "visible";
-
             } else {
                 $("#id").val(0);
                 $("#num").val('');
@@ -76,7 +73,6 @@
                 $("#cost").val('');
                 document.querySelector(".modal-title").innerHTML = "New Document";
                 document.getElementById("delete").style.visibility = "hidden";
-
             }
             $(_self.attr('href')).modal('show');
         });
@@ -85,22 +81,20 @@
 <nav aria-label="breadcrumb w-100">
     <ol class="breadcrumb row rounded-0 ">
         <li class="breadcrumb-item"><a asp-page="/Index">My Businesses</a></li>
-        <li class="breadcrumb-item"><a asp-page="/Business/BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
-        <li class="breadcrumb-item">@Model.viewContent.BranchName</li>
-        <li class="breadcrumb-item"><a asp-page="/Business/Employees" asp-route-id="@Model.viewContent.BranchId">Employees</a></li>
-        <li class="breadcrumb-item active">@Model.viewContent.EmployeeName</li>
+        <li class="breadcrumb-item"><a asp-page="/Businesses/BusinessHome" asp-route-id="@Model.viewContent.BusnissId">@Model.viewContent.BusinessName</a></li>
+        <li class="breadcrumb-item"><a asp-page="/Businesses/BranchHome" asp-route-id="@Model.viewContent.BranchId">@Model.viewContent.BranchName</a></li>
+        <li class="breadcrumb-item active">Branch</li>
     </ol>
 </nav>
 <!--Add Items-->
 <div class="row justify-content-center">
-    <div class=" rounded bg-light w-100">
+    <div class="card rounded-top shadow w-100">
         <div class="card-header border-bottom-0 display-5 text-center">
-            @Model.viewContent.EmployeeName
+            Branch Documents
         </div>
         <div class="card-body">
-            <a data-item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add New Document" class="Open-Item-Dialog btn btn-light text-success rounded-10 align-bottom " style="cursor:pointer;" href="#ItemModal">New&nbsp;<span class="oi oi-plus" title="Add New Document" aria-hidden="true"></span></a>
+            <a data-item='{"id":"","title":"","num":"","date":"","cost":""}' title="Add New Document" class="Open-Item-Dialog btn text-success rounded-10 align-bottom " style="cursor:pointer;" href="#ItemModal">New&nbsp;<span class="oi oi-plus" title="Add New Document" aria-hidden="true"></span></a>
             <div class="float-right"> <span class="oi oi-media-stop text-warning"></span>&nbsp; Less than 30 days to expire&nbsp;<span class="oi oi-media-stop text-danger"></span>&nbsp;Expired&nbsp;</div>
-
             <table class="table  table-borderless w-100 ">
                 <thead class="bg-light font-weight-bold">
                     <tr class="border-bottom">
@@ -115,11 +109,11 @@
                 </thead>
                 <tbody>
 
-                    @if (Model.employeeItems != null)
+                    @if (Model.branchItems != null)
                     {
                         string color = "";
                         long total = 0;
-                        foreach (var Item in Model.employeeItems)
+                        foreach (var Item in Model.branchItems)
                         {
                             @if (Item.ExpDate.HasValue && Item.ExpDate.Value.AddDays(-30).Date <= DateTime.Today)
                             {
@@ -140,19 +134,17 @@
 
                                 <td>@Item.DocumentTitle</td>
                                 <td>@Item.DocumentNumber</td>
-                                @if (Item.ExpDate.HasValue)
+                                <td>
+                                    @if (Item.ExpDate.HasValue)
+                                    {
+                                        @Item.ExpDate.Value.ToString("yyyy-MM-dd")
+                                    }
+                                </td>
+                                @if (Item.AnnualCost != null)
                                 {
-                                    <td>@Item.ExpDate.Value.ToString("yyyy-MM-dd")</td>
+                                    total += Item.AnnualCost.Value;
                                 }
-                                else
-                                {
-                                    <td></td>
-                                }
-                                @if (Item.ItemAnnualExpectedCost != null)
-                                {
-                                    total += Item.ItemAnnualExpectedCost.Value;
-                                }
-                                <td>@Item.ItemAnnualExpectedCost</td>
+                                <td>@Item.AnnualCost</td>
 
                                 <td>
                                     @if (Item.FileName != null)
@@ -161,11 +153,11 @@
                                     }
                                     @if (Item.ExpDate.HasValue)
                                     {
-                                        <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate.Value.ToString("yyyy-MM-dd")","cost":"@Item.ItemAnnualExpectedCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
+                                        <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"@Item.ExpDate.Value.ToString("yyyy-MM-dd")","cost":"@Item.AnnualCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
                                     }
                                     else
                                     {
-                                        <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"","cost":"@Item.ItemAnnualExpectedCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
+                                        <a data-item='{"id":"@Item.Id","title":"@Item.DocumentTitle","num":"@Item.DocumentNumber","date":"","cost":"@Item.AnnualCost"}' title="Edit" class="Open-Item-Dialog btn" style="cursor:pointer;" href="#ItemModal"><span class="oi oi-pencil" title="Edit" aria-hidden="true"></span></a>
 
                                     }
                                 </td>
@@ -202,28 +194,26 @@
                 <div class="modal-body">
                     @*<input type="text" name="bookId" id="id" value="" />*@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="EmployeeItem.Id" id="id" />
+                    <input type="hidden" asp-for="BranchItem.Id" id="id"/>
                     <div class="form-group">
-                        <label asp-for="EmployeeItem.DocumentTitle"></label>
-                        @*<input asp-for="EmployeeItem.DocumentTitle" id="title" class="form-control" />*@
-                        <select asp-for="EmployeeItem.DocumentTitle" id="title" class="form-control" asp-items="@(new SelectList(Model.titles))"></select><span class="font-italic">Other?&nbsp;<input type="checkbox" onclick="isChecked()" id="titleCheckBox" /></span>
-
-                        <span asp-validation-for="EmployeeItem.DocumentTitle" class="text-danger"></span>
+                        <label asp-for="BranchItem.DocumentTitle"></label>
+                        <select asp-for="BranchItem.DocumentTitle" id="title" class="form-control" asp-items="@(new SelectList(Model.titles))"></select><span class="font-italic">Other?&nbsp;<input type="checkbox" onclick="isChecked()" id="titleCheckBox"/></span>
+                        <span asp-validation-for="BranchItem.DocumentTitle" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="EmployeeItem.DocumentNumber"></label>
-                        <input asp-for="EmployeeItem.DocumentNumber" id="num" class="form-control" />
-                        <span asp-validation-for="EmployeeItem.DocumentNumber" class="text-danger"></span>
+                        <label asp-for="BranchItem.DocumentNumber"></label>
+                        <input asp-for="BranchItem.DocumentNumber" id="num" class="form-control" />
+                        <span asp-validation-for="BranchItem.DocumentNumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="EmployeeItem.ExpDate"></label>
-                        <input asp-for="EmployeeItem.ExpDate" id="date" class="form-control" />
-                        <span asp-validation-for="EmployeeItem.ExpDate" class="text-danger"></span>
+                        <label asp-for="BranchItem.ExpDate"></label>
+                        <input asp-for="BranchItem.ExpDate" id="date" class="form-control" />
+                        <span asp-validation-for="BranchItem.ExpDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="EmployeeItem.ItemAnnualExpectedCost"></label>
-                        <input asp-for="EmployeeItem.ItemAnnualExpectedCost" id="cost" class="form-control" />
-                        <span asp-validation-for="EmployeeItem.ItemAnnualExpectedCost" class="text-danger"></span>
+                        <label asp-for="BranchItem.AnnualCost"></label>
+                        <input asp-for="BranchItem.AnnualCost" id="cost" class="form-control" />
+                        <span asp-validation-for="BranchItem.AnnualCost" class="text-danger"></span>
                     </div>
                     <div class="form-group border-0">
                         <div class="custom-file mb-3">
@@ -233,8 +223,8 @@
                     </div>
                     <div class="modal-footer">
 
-                        <div class="form-group pt-2">
-                            <button id="delete" onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete&nbsp;<span class="oi oi-trash"></span></button> <!--OnPostDelete is consumed by asp-page-handler "Its Case sensitive" -->
+                        <div class="form-group pt-2  ">
+                            <button id="delete" onclick="return confirm('Confirm Delete?')" type="submit" asp-page-handler="Delete" class="btn btn-danger rounded-10 shadow">Delete &nbsp;<span class="oi oi-trash"></span></button> <!--OnPostDelete is consumed by asp-page-handler "Its Case sensitive" -->
                             <button type="submit" class="btn btn-primary rounded-10 shadow ">Save &nbsp;<span class="oi oi-check"></span></button>
                         </div>
                     </div>

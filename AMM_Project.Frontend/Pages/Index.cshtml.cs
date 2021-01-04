@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +47,7 @@ namespace AMM_Project.Frontend.Pages
         public IList<Upcoming> upcomings = new List<Upcoming>();
         public  void OnGetAsync()
         {
-            businesses =  _businessService.GetAll().ToList();
+            businesses = _businessService.GetAll().ToList();
             var employeeItems =  _employeeItemService.GetAll();
             var branchItems =  _branchItemService.GetAll();
             if (branchItems != null)
