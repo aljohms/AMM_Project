@@ -2,7 +2,7 @@
 @model UsersModel
 
 @section scripts {
-    <script type="text/javascript">     
+    <script type="text/javascript">
         $(document).ready(function () {
             if ($('.field-validation-error').length || $('.validation-summary-errors').length) {
                 $('#PasswordDialog').modal('show');
@@ -15,7 +15,6 @@
             var id = _self.data('user').id;
             $("#id").val(id);
 
-            document.querySelector(".modal-title").innerHTML = "Password Reset";
             $(_self.attr('href')).modal('show');
         });
     </script>
@@ -26,31 +25,19 @@
 }
 @if (Model.users != null)
 {
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">Username</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.users)
-        {
-            <tr>
-                <td>@user.UserName</td>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>
-                    <a data-user='{"id":"@user.Id","username":"@user.UserName"}' title="Add this item" class="open-Dialog btn btn-primary" href="#PasswordDialog">Reset</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-
-</table>
-
+    <div class="col-10 mx-auto">
+        <div class="jumbotron">
+            <h1 class="display-4">
+                Hello, @User.Identity.Name
+            </h1>
+            <p class="lead">Would you like to reset your password?</p>
+            <p class="lead">
+                <!-- Button trigger modal -->
+                <a data-user='{"id":"@Model.users.First().Id","username":"@Model.users.First().UserName"}' title="Add this item" class="open-Dialog btn btn-primary" href="#PasswordDialog">Reset</a>
+               
+            </p>
+        </div>
+    </div>
     <!-- Modal -->
 
     <div class="modal fade" id="PasswordDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -58,7 +45,7 @@
             <form method="post">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel"></h4>
+                        <h4 class="modal-title" id="myModalLabel">Password Reset</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -81,7 +68,7 @@
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </div><!-- /.modal-content -->
-                </form>
+            </form>
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 }

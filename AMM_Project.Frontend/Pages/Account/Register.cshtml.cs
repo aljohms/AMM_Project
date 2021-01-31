@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using AMM_Project.Frontend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMM_Project.Frontend.Pages.Account
 {
@@ -15,7 +16,6 @@ namespace AMM_Project.Frontend.Pages.Account
         public RegisterModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-           
         }
         //Input Model
         [BindProperty]
@@ -41,15 +41,15 @@ namespace AMM_Project.Frontend.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string RePassword { get; set; }
-            //[Required]
-            //[DataType(DataType.Text)]
-            //[Display(Name = "First name")]
-            //public string FirstName { get; set; }
-            //[Required]
-            //[DataType(DataType.Text)]
-            //[Display(Name = "Last name")]
-            //public string LastName { get; set; }
 
+        }
+        public async Task<IActionResult> OnGet()
+        {
+           if(await _userManager.Users.AnyAsync())
+            {
+                return RedirectToPage("/index");
+            }
+            return Page();
         }
         public async Task<IActionResult> OnPost()
         {
